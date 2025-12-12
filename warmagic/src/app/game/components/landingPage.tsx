@@ -8,10 +8,10 @@ export default function LandingPage() {
                 WarMagic
             </div>
             <div className="absolute top-6 right-6 flex gap-4">
-                <button className="px-8 py-3 text-white  backdrop-blur" style={{ backgroundColor: "#FFD080"}}>
+                <button className="px-8 py-3 text-white  backdrop-blur" style={{ backgroundColor: "var(--custom-yellow)"}}>
                     Login
                 </button>
-                <button className="px-8 py-3 text-white backdrop-blur" style={{ backgroundColor: "#FFD080"}}>
+                <button className="px-8 py-3 text-white backdrop-blur" style={{ backgroundColor: "var(--custom-yellow)"}}>
                     Sign Up
                 </button>
             </div>
@@ -19,7 +19,7 @@ export default function LandingPage() {
             <div className="absolute left-10 top-1/3 text-white">
                 <h1 className="text-9xl font-bold">WarMagic</h1>
                 <p className="text-3xl mt-2">Placeholder description</p>
-                <button className="mt-6 px-8 py-3 text-white" style={{ backgroundColor: "#FFD080"}}>Play</button>
+                <button className="mt-6 px-8 py-3 text-white" style={{ backgroundColor: "var(--custom-yellow)"}}>Play</button>
             </div>
         </section>
     )
