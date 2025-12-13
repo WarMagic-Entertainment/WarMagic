@@ -3,6 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --custom-yellow: #FFD080;
 }
 
 @theme inline {
@@ -17,6 +18,11 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+}
+
+@font-face {
+  font-family: "IsoCore";
+  src: url("/assets/fonts/IsoCore.ttf");
 }
 
 body {
