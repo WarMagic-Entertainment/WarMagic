@@ -1,4 +1,4 @@
-export default function MainGameMenu() {
+export default function ProfileIcon() {
     return(
         <section
         className="relative h-screen w-screen"
