@@ -1,8 +1,11 @@
-import Image from "next/image";
-import LandingPage from "./game/components/landingPage";
+import LandingPage from './game/components/landingPage';
+// import ProfileIcon from './game/profile/ProfileIcon';
 
 export default function Home() {
   return (
-    <LandingPage/>
+    <div>
+      <LandingPage/>
+      {/* <ProfileIcon/> */}
+    </div>
   );
 }
