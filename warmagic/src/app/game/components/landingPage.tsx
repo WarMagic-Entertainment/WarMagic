@@ -6,7 +6,7 @@ export default function LandingPage() {
         >
             <div 
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat brightness-75"
-                style={{ backgroundImage: "url('/assets/background/dracula_castle_4k_background.png')" }}
+                style={{ backgroundImage: "url('/assets/background/landingbgimage.png')" }}
             ></div>
             <div className="absolute top-[65px] left-[100px] text-white text-[27px] font-bold">
                 WarMagic
