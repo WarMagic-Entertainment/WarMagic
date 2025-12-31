@@ -56,7 +56,7 @@ export default function RegisterPage() {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat brightness-75"
         style={{
-          backgroundImage: "url('/assets/background/main-pages-background/castle.png')",
+          backgroundImage: "url('/assets/background/main-pages-background/castle.png')"
         }}
       ></div>
   
