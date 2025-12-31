@@ -1,0 +1,502 @@
+diff --git "a/warmagic/public/assets/background/doko\305\204cz bg.txt" "b/warmagic/public/assets/background/doko\305\204cz bg.txt"
+deleted file mode 100644
+index e69de29..0000000
+diff --git a/warmagic/public/assets/cards/2_theHighPriestess_5x.png b/warmagic/public/assets/cards/2_theHighPriestess_5x.png
+new file mode 100644
+index 0000000..1c5ff97
+Binary files /dev/null and b/warmagic/public/assets/cards/2_theHighPriestess_5x.png differ
+diff --git a/warmagic/public/assets/cards/6_theLovers_5x.png b/warmagic/public/assets/cards/6_theLovers_5x.png
+new file mode 100644
+index 0000000..8c2a94d
+Binary files /dev/null and b/warmagic/public/assets/cards/6_theLovers_5x.png differ
+diff --git a/warmagic/public/assets/hp-bar/enemy-hp-bar/1hp/enemy-hb-1hp.psd b/warmagic/public/assets/hp-bar/enemy-hp-bar/1hp/enemy-hb-1hp.psd
+deleted file mode 100644
+index 9882200..0000000
+Binary files a/warmagic/public/assets/hp-bar/enemy-hp-bar/1hp/enemy-hb-1hp.psd and /dev/null differ
+diff --git a/warmagic/public/assets/hp-bar/enemy-hp-bar/2hp/enemy-hb-2hp.psd b/warmagic/public/assets/hp-bar/enemy-hp-bar/2hp/enemy-hb-2hp.psd
+deleted file mode 100644
+index 541b16f..0000000
+Binary files a/warmagic/public/assets/hp-bar/enemy-hp-bar/2hp/enemy-hb-2hp.psd and /dev/null differ
+diff --git a/warmagic/public/assets/hp-bar/enemy-hp-bar/3hp/enemy-hb-3hp.psd b/warmagic/public/assets/hp-bar/enemy-hp-bar/3hp/enemy-hb-3hp.psd
+deleted file mode 100644
+index 9f08418..0000000
+Binary files a/warmagic/public/assets/hp-bar/enemy-hp-bar/3hp/enemy-hb-3hp.psd and /dev/null differ
+diff --git a/warmagic/public/assets/hp-bar/enemy-hp-bar/4hp/enemy-hb-4hp.psd b/warmagic/public/assets/hp-bar/enemy-hp-bar/4hp/enemy-hb-4hp.psd
+deleted file mode 100644
+index a9bff77..0000000
+Binary files a/warmagic/public/assets/hp-bar/enemy-hp-bar/4hp/enemy-hb-4hp.psd and /dev/null differ
+diff --git a/warmagic/public/assets/hp-bar/enemy-hp-bar/5hp/enemy-hb-5hp.psd b/warmagic/public/assets/hp-bar/enemy-hp-bar/5hp/enemy-hb-5hp.psd
+deleted file mode 100644
+index 93333fa..0000000
+Binary files a/warmagic/public/assets/hp-bar/enemy-hp-bar/5hp/enemy-hb-5hp.psd and /dev/null differ
+diff --git a/warmagic/public/assets/hp-bar/enemy-hp-bar/6hp/enemy-hb-6hp.psd b/warmagic/public/assets/hp-bar/enemy-hp-bar/6hp/enemy-hb-6hp.psd
+deleted file mode 100644
+index 3951c78..0000000
+Binary files a/warmagic/public/assets/hp-bar/enemy-hp-bar/6hp/enemy-hb-6hp.psd and /dev/null differ
+diff --git a/warmagic/public/assets/hp-bar/player-hp-bar/1hp/player-hb-1hp.psd b/warmagic/public/assets/hp-bar/player-hp-bar/1hp/player-hb-1hp.psd
+deleted file mode 100644
+index 9527a8d..0000000
+Binary files a/warmagic/public/assets/hp-bar/player-hp-bar/1hp/player-hb-1hp.psd and /dev/null differ
+diff --git a/warmagic/public/assets/hp-bar/player-hp-bar/2hp/player-hb-2hp.psd b/warmagic/public/assets/hp-bar/player-hp-bar/2hp/player-hb-2hp.psd
+deleted file mode 100644
+index 4d31920..0000000
+Binary files a/warmagic/public/assets/hp-bar/player-hp-bar/2hp/player-hb-2hp.psd and /dev/null differ
+diff --git a/warmagic/public/assets/hp-bar/player-hp-bar/3hp/player-hb-3hp.psd b/warmagic/public/assets/hp-bar/player-hp-bar/3hp/player-hb-3hp.psd
+deleted file mode 100644
+index cf40195..0000000
+Binary files a/warmagic/public/assets/hp-bar/player-hp-bar/3hp/player-hb-3hp.psd and /dev/null differ
+diff --git a/warmagic/public/assets/hp-bar/player-hp-bar/4hp/player-hb-4hp.psd b/warmagic/public/assets/hp-bar/player-hp-bar/4hp/player-hb-4hp.psd
+deleted file mode 100644
+index 0542afc..0000000
+Binary files a/warmagic/public/assets/hp-bar/player-hp-bar/4hp/player-hb-4hp.psd and /dev/null differ
+diff --git a/warmagic/public/assets/hp-bar/player-hp-bar/5hp/player-hb-5hp.psd b/warmagic/public/assets/hp-bar/player-hp-bar/5hp/player-hb-5hp.psd
+deleted file mode 100644
+index ba3ef18..0000000
+Binary files a/warmagic/public/assets/hp-bar/player-hp-bar/5hp/player-hb-5hp.psd and /dev/null differ
+diff --git a/warmagic/public/assets/hp-bar/player-hp-bar/6hp/player-hb-6hp.psd b/warmagic/public/assets/hp-bar/player-hp-bar/6hp/player-hb-6hp.psd
+deleted file mode 100644
+index 3164161..0000000
+Binary files a/warmagic/public/assets/hp-bar/player-hp-bar/6hp/player-hb-6hp.psd and /dev/null differ
+diff --git a/warmagic/public/assets/player-profileIcon/profile-icon-gelorbi.png b/warmagic/public/assets/player-profileIcon/profile-icon-gelorbi.png
+deleted file mode 100644
+index c6a0201..0000000
+Binary files a/warmagic/public/assets/player-profileIcon/profile-icon-gelorbi.png and /dev/null differ
+diff --git a/warmagic/public/assets/player/gelorbi_attack.gif b/warmagic/public/assets/player/player1/gelorbi_attack.gif
+similarity index 100%
+rename from warmagic/public/assets/player/gelorbi_attack.gif
+rename to warmagic/public/assets/player/player1/gelorbi_attack.gif
+diff --git a/warmagic/public/assets/player/gelorbi_dead.gif b/warmagic/public/assets/player/player1/gelorbi_dead.gif
+similarity index 100%
+rename from warmagic/public/assets/player/gelorbi_dead.gif
+rename to warmagic/public/assets/player/player1/gelorbi_dead.gif
+diff --git a/warmagic/public/assets/player/gelorbi_hit.gif b/warmagic/public/assets/player/player1/gelorbi_hit.gif
+similarity index 100%
+rename from warmagic/public/assets/player/gelorbi_hit.gif
+rename to warmagic/public/assets/player/player1/gelorbi_hit.gif
+diff --git a/warmagic/public/assets/player/player_ready.gif b/warmagic/public/assets/player/player1/player_ready.gif
+similarity index 100%
+rename from warmagic/public/assets/player/player_ready.gif
+rename to warmagic/public/assets/player/player1/player_ready.gif
+diff --git a/warmagic/public/assets/player/player2/player_attack.gif b/warmagic/public/assets/player/player2/player_attack.gif
+new file mode 100644
+index 0000000..d243eb0
+Binary files /dev/null and b/warmagic/public/assets/player/player2/player_attack.gif differ
+diff --git a/warmagic/public/assets/player/player2/player_dead.gif b/warmagic/public/assets/player/player2/player_dead.gif
+new file mode 100644
+index 0000000..fb0f4c5
+Binary files /dev/null and b/warmagic/public/assets/player/player2/player_dead.gif differ
+diff --git a/warmagic/public/assets/player/player2/player_hit.gif b/warmagic/public/assets/player/player2/player_hit.gif
+new file mode 100644
+index 0000000..cc726ba
+Binary files /dev/null and b/warmagic/public/assets/player/player2/player_hit.gif differ
+diff --git a/warmagic/public/assets/player/player2/player_idle.gif b/warmagic/public/assets/player/player2/player_idle.gif
+new file mode 100644
+index 0000000..95ef8a3
+Binary files /dev/null and b/warmagic/public/assets/player/player2/player_idle.gif differ
+diff --git a/warmagic/public/assets/player/player3/player_Idle.gif b/warmagic/public/assets/player/player3/player_Idle.gif
+new file mode 100644
+index 0000000..2e93b60
+Binary files /dev/null and b/warmagic/public/assets/player/player3/player_Idle.gif differ
+diff --git a/warmagic/public/assets/player/player3/player_attack.gif b/warmagic/public/assets/player/player3/player_attack.gif
+new file mode 100644
+index 0000000..99c7033
+Binary files /dev/null and b/warmagic/public/assets/player/player3/player_attack.gif differ
+diff --git a/warmagic/public/assets/player/player3/player_dead.gif b/warmagic/public/assets/player/player3/player_dead.gif
+new file mode 100644
+index 0000000..b68b0b4
+Binary files /dev/null and b/warmagic/public/assets/player/player3/player_dead.gif differ
+diff --git a/warmagic/public/assets/player/player3/player_hit.gif b/warmagic/public/assets/player/player3/player_hit.gif
+new file mode 100644
+index 0000000..2c47cd2
+Binary files /dev/null and b/warmagic/public/assets/player/player3/player_hit.gif differ
+diff --git a/warmagic/public/assets/player/player4/player_attack.gif b/warmagic/public/assets/player/player4/player_attack.gif
+new file mode 100644
+index 0000000..6e4b37e
+Binary files /dev/null and b/warmagic/public/assets/player/player4/player_attack.gif differ
+diff --git a/warmagic/public/assets/player/player4/player_dead.gif b/warmagic/public/assets/player/player4/player_dead.gif
+new file mode 100644
+index 0000000..08bbf2b
+Binary files /dev/null and b/warmagic/public/assets/player/player4/player_dead.gif differ
+diff --git a/warmagic/public/assets/player/player4/player_hit.gif b/warmagic/public/assets/player/player4/player_hit.gif
+new file mode 100644
+index 0000000..243f5af
+Binary files /dev/null and b/warmagic/public/assets/player/player4/player_hit.gif differ
+diff --git a/warmagic/public/assets/player/player4/player_idle.gif b/warmagic/public/assets/player/player4/player_idle.gif
+new file mode 100644
+index 0000000..168e89f
+Binary files /dev/null and b/warmagic/public/assets/player/player4/player_idle.gif differ
+diff --git a/warmagic/public/file.svg b/warmagic/public/file.svg
+deleted file mode 100644
+index 004145c..0000000
+--- a/warmagic/public/file.svg
++++ /dev/null
+@@ -1 +0,0 @@
+-<svg fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 13.5V5.41a1 1 0 0 0-.3-.7L9.8.29A1 1 0 0 0 9.08 0H1.5v13.5A2.5 2.5 0 0 0 4 16h8a2.5 2.5 0 0 0 2.5-2.5m-1.5 0v-7H8v-5H3v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1M9.5 5V2.12L12.38 5zM5.13 5h-.62v1.25h2.12V5zm-.62 3h7.12v1.25H4.5zm.62 3h-.62v1.25h7.12V11z" clip-rule="evenodd" fill="#666" fill-rule="evenodd"/></svg>
+\ No newline at end of file
+diff --git a/warmagic/public/globe.svg b/warmagic/public/globe.svg
+deleted file mode 100644
+index 567f17b..0000000
+--- a/warmagic/public/globe.svg
++++ /dev/null
+@@ -1 +0,0 @@
+-<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g clip-path="url(#a)"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.27 14.1a6.5 6.5 0 0 0 3.67-3.45q-1.24.21-2.7.34-.31 1.83-.97 3.1M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.48-1.52a7 7 0 0 1-.96 0H7.5a4 4 0 0 1-.84-1.32q-.38-.89-.63-2.08a40 40 0 0 0 3.92 0q-.25 1.2-.63 2.08a4 4 0 0 1-.84 1.31zm2.94-4.76q1.66-.15 2.95-.43a7 7 0 0 0 0-2.58q-1.3-.27-2.95-.43a18 18 0 0 1 0 3.44m-1.27-3.54a17 17 0 0 1 0 3.64 39 39 0 0 1-4.3 0 17 17 0 0 1 0-3.64 39 39 0 0 1 4.3 0m1.1-1.17q1.45.13 2.69.34a6.5 6.5 0 0 0-3.67-3.44q.65 1.26.98 3.1M8.48 1.5l.01.02q.41.37.84 1.31.38.89.63 2.08a40 40 0 0 0-3.92 0q.25-1.2.63-2.08a4 4 0 0 1 .85-1.32 7 7 0 0 1 .96 0m-2.75.4a6.5 6.5 0 0 0-3.67 3.44 29 29 0 0 1 2.7-.34q.31-1.83.97-3.1M4.58 6.28q-1.66.16-2.95.43a7 7 0 0 0 0 2.58q1.3.27 2.95.43a18 18 0 0 1 0-3.44m.17 4.71q-1.45-.12-2.69-.34a6.5 6.5 0 0 0 3.67 3.44q-.65-1.27-.98-3.1" fill="#666"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath></defs></svg>
+\ No newline at end of file
+diff --git a/warmagic/public/next.svg b/warmagic/public/next.svg
+deleted file mode 100644
+index 5174b28..0000000
+--- a/warmagic/public/next.svg
++++ /dev/null
+@@ -1 +0,0 @@
+-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80"><path fill="#000" d="M262 0h68.5v12.7h-27.2v66.6h-13.6V12.7H262V0ZM149 0v12.7H94v20.4h44.3v12.6H94v21h55v12.6H80.5V0h68.7zm34.3 0h-17.8l63.8 79.4h17.9l-32-39.7 32-39.6h-17.9l-23 28.6-23-28.6zm18.3 56.7-9-11-27.1 33.7h17.8l18.3-22.7z"/><path fill="#000" d="M81 79.3 17 0H0v79.3h13.6V17l50.2 62.3H81Zm252.6-.4c-1 0-1.8-.4-2.5-1s-1.1-1.6-1.1-2.6.3-1.8 1-2.5 1.6-1 2.6-1 1.8.3 2.5 1a3.4 3.4 0 0 1 .6 4.3 3.7 3.7 0 0 1-3 1.8zm23.2-33.5h6v23.3c0 2.1-.4 4-1.3 5.5a9.1 9.1 0 0 1-3.8 3.5c-1.6.8-3.5 1.3-5.7 1.3-2 0-3.7-.4-5.3-1s-2.8-1.8-3.7-3.2c-.9-1.3-1.4-3-1.4-5h6c.1.8.3 1.6.7 2.2s1 1.2 1.6 1.5c.7.4 1.5.5 2.4.5 1 0 1.8-.2 2.4-.6a4 4 0 0 0 1.6-1.8c.3-.8.5-1.8.5-3V45.5zm30.9 9.1a4.4 4.4 0 0 0-2-3.3 7.5 7.5 0 0 0-4.3-1.1c-1.3 0-2.4.2-3.3.5-.9.4-1.6 1-2 1.6a3.5 3.5 0 0 0-.3 4c.3.5.7.9 1.3 1.2l1.8 1 2 .5 3.2.8c1.3.3 2.5.7 3.7 1.2a13 13 0 0 1 3.2 1.8 8.1 8.1 0 0 1 3 6.5c0 2-.5 3.7-1.5 5.1a10 10 0 0 1-4.4 3.5c-1.8.8-4.1 1.2-6.8 1.2-2.6 0-4.9-.4-6.8-1.2-2-.8-3.4-2-4.5-3.5a10 10 0 0 1-1.7-5.6h6a5 5 0 0 0 3.5 4.6c1 .4 2.2.6 3.4.6 1.3 0 2.5-.2 3.5-.6 1-.4 1.8-1 2.4-1.7a4 4 0 0 0 .8-2.4c0-.9-.2-1.6-.7-2.2a11 11 0 0 0-2.1-1.4l-3.2-1-3.8-1c-2.8-.7-5-1.7-6.6-3.2a7.2 7.2 0 0 1-2.4-5.7 8 8 0 0 1 1.7-5 10 10 0 0 1 4.3-3.5c2-.8 4-1.2 6.4-1.2 2.3 0 4.4.4 6.2 1.2 1.8.8 3.2 2 4.3 3.4 1 1.4 1.5 3 1.5 5h-5.8z"/></svg>
+\ No newline at end of file
+diff --git a/warmagic/public/vercel.svg b/warmagic/public/vercel.svg
+deleted file mode 100644
+index 7705396..0000000
+--- a/warmagic/public/vercel.svg
++++ /dev/null
+@@ -1 +0,0 @@
+-<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z" fill="#fff"/></svg>
+\ No newline at end of file
+diff --git a/warmagic/public/window.svg b/warmagic/public/window.svg
+deleted file mode 100644
+index b2b2a44..0000000
+--- a/warmagic/public/window.svg
++++ /dev/null
+@@ -1 +0,0 @@
+-<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 2.5h13v10a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1zM0 1h16v11.5a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 0 12.5zm3.75 4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5M7 4.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m1.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5" fill="#666"/></svg>
+\ No newline at end of file
+diff --git a/warmagic/src/app/game/components/landingPage.tsx b/warmagic/src/app/game/components/landingPage.tsx
+deleted file mode 100644
+index 15d5b72..0000000
+--- a/warmagic/src/app/game/components/landingPage.tsx
++++ /dev/null
+@@ -1,30 +0,0 @@
+-export default function LandingPage() {
+-    return(
+-        <section
+-        className="relative h-screen w-screen"
+-        style={{ fontFamily: "IsoCore" }}
+-        >
+-            <div 
+-                className="absolute inset-0 bg-cover bg-center bg-no-repeat brightness-75"
+-                style={{ backgroundImage: "url('/assets/background/main-pages-background/castle.png')" }}
+-            ></div>
+-            <div className="absolute top-[65px] left-[100px] text-white text-[27px] font-bold">
+-                WarMagic
+-            </div>
+-            <div className="absolute top-[65px] right-[100px] flex gap-4">
+-                <button className="px-10 py-4 text-[17px] text-white transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c] backdrop-blur">
+-                    Sign in
+-                </button>
+-                <button className="px-10 py-4 text-[17px] text-white transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c] backdrop-blur">
+-                    Sign Up
+-                </button>
+-            </div>
+-
+-            <div className="absolute left-[150px] top-3/7 text-white">
+-                <h1 className="text-9xl font-bold">WarMagic</h1>
+-                <p className="text-3xl mt-2">Placeholder description</p>
+-                <button className="mt-8 px-10 py-4 text-[17px] text-white transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c]">Play</button>
+-            </div>
+-        </section>
+-    )
+-}
+\ No newline at end of file
+diff --git a/warmagic/src/app/game/page.tsx b/warmagic/src/app/game/page.tsx
+deleted file mode 100644
+index e69de29..0000000
+diff --git a/warmagic/src/app/game/profile/ProfileIcon.tsx b/warmagic/src/app/game/profile/ProfileIcon.tsx
+index 32f9beb..c86b299 100644
+--- a/warmagic/src/app/game/profile/ProfileIcon.tsx
++++ b/warmagic/src/app/game/profile/ProfileIcon.tsx
+@@ -1,30 +1,32 @@
+-export default function ProfileIcon() {
+-    return(
+-        <section
+-        className="relative h-screen w-screen"
+-        style={{ fontFamily: "IsoCore" }}
+-        >
+-            <div className="absolute top-[45px] right-[100px] flex gap-8">
+-                <div className="relative group inline-block">
+-                    <img src="/assets/playerProfileIcon/profile-icon-gelorbi.png" alt="userProfileIcon" className="w-[100px] h-[100px] rounded-[200px] cursor-pointer transition-all duration-300 relative z-30 block" />
+-                    <div className="absolute top-0 left-0 w-[100px] bg-[#202020] border border-[#747474] rounded-t-[200px] rounded-b-[200px] z-20 transition-all duration-300 overflow-hidden opacity-0 group-hover:opacity-100 hover:opacity-100 max-h-0 group-hover:max-h-[400px] hover:max-h-[400px] pointer-events-none group-hover:pointer-events-auto hover:pointer-events-auto" style={{ boxShadow: '0px 8px 10px 4px rgba(0, 0, 0, 1)'}}>
+-                        <div className="p-2 pt-[115px] text-white flex flex-col items-center gap-5 h-[350px] rounded-[200px]">
+-                            <div className="relative flex items-center justify-center group/icon">
+-                                <div className="absolute w-16 h-16 bg-[#2D2D2D] rounded-full opacity-0 group-hover/icon:opacity-100 transition-opacity duration-300"></div>
+-                                <img src="/assets/icons/menu-icons/cards-fortune-future-moon-star-svgrepo-com.svg" alt="" className="w-13 h-13 relative z-10" style={{ filter: 'brightness(0) saturate(100%) invert(82%) sepia(25%) saturate(1500%) hue-rotate(0deg) brightness(1.1)' }} />
+-                            </div>
+-                            <div className="relative flex items-center justify-center group/icon">
+-                                <div className="absolute w-16 h-16 bg-[#2D2D2D] rounded-full opacity-0 group-hover/icon:opacity-100 transition-opacity duration-300"></div>
+-                                <img src="/assets/icons/menu-icons/settings-svgrepo-com.svg" alt="" className="w-13 h-13 relative z-10" style={{ filter: 'brightness(0) saturate(100%) invert(82%) sepia(25%) saturate(1500%) hue-rotate(0deg) brightness(1.1)' }} />
+-                            </div>
+-                            <div className="relative flex items-center justify-center group/icon">
+-                                <div className="absolute w-16 h-16 bg-[#2D2D2D] rounded-full opacity-0 group-hover/icon:opacity-100 transition-opacity duration-300"></div>
+-                                <img src="/assets/icons/menu-icons/sorcerer-hat-svgrepo-com.svg" alt="" className="w-13 h-13 relative z-10" style={{ filter: 'brightness(0) saturate(100%) invert(82%) sepia(25%) saturate(1500%) hue-rotate(0deg) brightness(1.1)' }} />
+-                            </div>
+-                        </div>
+-                    </div>
+-                </div>
+-            </div>
+-        </section>
+-    )
+-}
+\ No newline at end of file
++//To be used in furture
++
++// export default function ProfileIcon() {
++//     return(
++        // <section
++//         className="relative h-screen w-screen"
++//         style={{ fontFamily: "IsoCore" }}
++//         >
++//             <div className="absolute top-[45px] right-[100px] flex gap-8">
++//                 <div className="relative group inline-block">
++//                     <img src="/assets/playerProfileIcon/dandadan.png" alt="userProfileIcon" className="w-[100px] h-[100px] rounded-[200px] cursor-pointer transition-all duration-300 relative z-30 block" />
++//                     <div className="absolute top-0 left-0 w-[100px] bg-[#202020] border border-[#747474] rounded-t-[200px] rounded-b-[200px] z-20 transition-all duration-300 overflow-hidden opacity-0 group-hover:opacity-100 hover:opacity-100 max-h-0 group-hover:max-h-[400px] hover:max-h-[400px] pointer-events-none group-hover:pointer-events-auto hover:pointer-events-auto" style={{ boxShadow: '0px 8px 10px 4px rgba(0, 0, 0, 1)'}}>
++//                         <div className="p-2 pt-[115px] text-white flex flex-col items-center gap-5 h-[350px] rounded-[200px]">
++//                             <div className="relative flex items-center justify-center group/icon">
++//                                 <div className="absolute w-16 h-16 bg-[#2D2D2D] rounded-full opacity-0 group-hover/icon:opacity-100 transition-opacity duration-300"></div>
++//                                 <img src="/assets/menu_icons/cards-fortune-future-moon-star-svgrepo-com.svg" alt="" className="w-13 h-13 relative z-10" style={{ filter: 'brightness(0) saturate(100%) invert(82%) sepia(25%) saturate(1500%) hue-rotate(0deg) brightness(1.1)' }} />
++//                             </div>
++//                             <div className="relative flex items-center justify-center group/icon">
++//                                 <div className="absolute w-16 h-16 bg-[#2D2D2D] rounded-full opacity-0 group-hover/icon:opacity-100 transition-opacity duration-300"></div>
++//                                 <img src="/assets/menu_icons/settings-svgrepo-com.svg" alt="" className="w-13 h-13 relative z-10" style={{ filter: 'brightness(0) saturate(100%) invert(82%) sepia(25%) saturate(1500%) hue-rotate(0deg) brightness(1.1)' }} />
++//                             </div>
++//                             <div className="relative flex items-center justify-center group/icon">
++//                                 <div className="absolute w-16 h-16 bg-[#2D2D2D] rounded-full opacity-0 group-hover/icon:opacity-100 transition-opacity duration-300"></div>
++//                                 <img src="/assets/menu_icons/sorcerer-hat-svgrepo-com.svg" alt="" className="w-13 h-13 relative z-10" style={{ filter: 'brightness(0) saturate(100%) invert(82%) sepia(25%) saturate(1500%) hue-rotate(0deg) brightness(1.1)' }} />
++//                             </div>
++//                         </div>
++//                     </div>
++//                 </div>
++//             </div>
++//         </section>
++//     )
++// }
+diff --git a/warmagic/src/app/landingpage/page.tsx b/warmagic/src/app/landingpage/page.tsx
+new file mode 100644
+index 0000000..94b9d05
+--- /dev/null
++++ b/warmagic/src/app/landingpage/page.tsx
+@@ -0,0 +1,30 @@
++export default function LandingPage() {
++  return(
++      <section
++      className="relative h-screen w-screen"
++      style={{ fontFamily: "IsoCore" }}
++      >
++          <div 
++              className="absolute inset-0 bg-cover bg-center bg-no-repeat brightness-75"
++              style={{ backgroundImage: "url('/assets/background/main-pages-background/castle.png')" }}
++          ></div>
++          <div className="absolute top-[65px] left-[100px] text-white text-[27px] font-bold">
++              <a href="./landingpage">WarMagic</a>
++          </div>
++          <div className="absolute top-[65px] right-[100px] flex gap-4">
++              <button className="px-10 py-4 text-[17px] text-white transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c] backdrop-blur">
++                  Sign in
++              </button>
++              <a href="../register"><button className="px-10 py-4 text-[17px] text-white transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c] backdrop-blur">
++                  Sign Up
++              </button></a>
++          </div>
++
++          <div className="absolute left-[150px] top-3/7 text-white">
++              <h1 className="text-9xl font-bold">WarMagic</h1>
++              <p className="text-3xl mt-2">Placeholder description</p>
++              <button className="mt-8 px-10 py-4 text-[17px] text-white transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c]">Play</button>
++          </div>
++      </section>
++  )
++}
+\ No newline at end of file
+diff --git a/warmagic/src/app/page.tsx b/warmagic/src/app/page.tsx
+index 7d17f37..6062793 100644
+--- a/warmagic/src/app/page.tsx
++++ b/warmagic/src/app/page.tsx
+@@ -1,11 +1,9 @@
+-import LandingPage from './game/components/landingPage';
+-// import ProfileIcon from './game/profile/ProfileIcon';
++import LandingPage from './landingpage/page';
+ 
+ export default function Home() {
+   return (
+     <div>
+       <LandingPage/>
+-      {/* <ProfileIcon/> */}
+     </div>
+   );
+-}
++}
+\ No newline at end of file
+diff --git a/warmagic/src/app/placeholderpage/page.tsx b/warmagic/src/app/placeholderpage/page.tsx
+new file mode 100644
+index 0000000..bbe8f7c
+--- /dev/null
++++ b/warmagic/src/app/placeholderpage/page.tsx
+@@ -0,0 +1,9 @@
++export default function PlaceholderPage(){
++    return (
++        <div>
++            <h1>Placeholder</h1><br/>
++            <a href="../landingpage">landing</a><br/>
++            <a href="../register">register</a>
++        </div>
++    )
++}
+\ No newline at end of file
+diff --git a/warmagic/src/app/register/page.tsx b/warmagic/src/app/register/page.tsx
+new file mode 100644
+index 0000000..9881e8d
+--- /dev/null
++++ b/warmagic/src/app/register/page.tsx
+@@ -0,0 +1,127 @@
++"use client";
++
++import { useState } from "react";
++import { createUserWithEmailAndPassword } from "firebase/auth";
++import { doc, setDoc } from "firebase/firestore";
++import { auth, db } from "@/lib/firebase";
++
++export default function RegisterPage() {
++  const [email, setEmail] = useState("");
++  const [password, setPassword] = useState("");
++  const [username, setUsername] = useState("");
++  const [error, setError] = useState<string | null>(null);
++  const [loading, setLoading] = useState(false);
++
++  const handleRegister = async () => {
++    setError(null);
++    setLoading(true);
++
++    try {
++      const userCredential = await createUserWithEmailAndPassword(
++        auth,
++        email,
++        password
++      );
++
++      const uid = userCredential.user.uid;
++
++      await setDoc(doc(db, "users", uid), {
++        username,
++        email,
++        unlockedCards: [],
++        equippedCards: [],
++        unlockedSkins: [],
++        activeSkin: null,
++        createdAt: new Date(),
++      });
++
++      setEmail("");
++      setUsername("");
++      setPassword("");
++
++      console.log("User created:", uid);
++    } catch (err: any) {
++      setError(err.message);
++    } finally {
++      setLoading(false);
++    }
++  };
++
++
++  return (
++    <section
++      className="relative h-screen w-screen"
++      style={{ fontFamily: "IsoCore" }}
++    >
++      <div
++        className="absolute inset-0 bg-cover bg-center bg-no-repeat brightness-75"
++        style={{
++          backgroundImage: "url('/assets/background/main-pages-background/castle.png')"
++        }}
++      ></div>
++  
++      <a href="../landingpage" className="absolute top-[65px] left-[100px] text-white text-[27px] font-bold z-10">
++        WarMagic
++      </a>
++  
++      <div className="absolute inset-0 flex items-center justify-center">
++        <div className="w-[600px] h-[750px] bg-[#202020] backdrop-blur-md rounded-lg px-10 py-12 text-white">
++          <h1 className="text-[115px] font-bold text-center mb-10 text-[var(--custom-yellow)]">
++            Sign up
++          </h1>
++  
++          <div className="space-y-6">
++            <div>
++              <label className="block mb-2 text-sm">Email</label>
++              <input
++                className="w-full px-4 py-3 bg-[#272727] rounded outline-none focus:ring-2 focus:ring-[var(--custom-yellow)]"
++                value={email}
++                onChange={e => setEmail(e.target.value)}
++              />
++            </div>
++  
++            <div>
++              <label className="block mb-2 text-sm">Password</label>
++              <input
++                type="password"
++                className="w-full px-4 py-3 bg-[#272727] rounded outline-none focus:ring-2 focus:ring-[var(--custom-yellow)]"
++                value={password}
++                onChange={e => setPassword(e.target.value)}
++              />
++            </div>
++  
++            <div>
++              <label className="block mb-2 text-sm">Username</label>
++              <input
++                className="w-full px-4 py-3 bg-[#272727] rounded outline-none focus:ring-2 focus:ring-[var(--custom-yellow)]"
++                value={username}
++                onChange={e => setUsername(e.target.value)}
++              />
++            </div>
++          </div>
++  
++          <button
++            onClick={handleRegister}
++            disabled={loading}
++            className="w-full h-[83px] mt-10 px-10 py-4 text-[30px] text-[#FFFFFF] transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c] disabled:opacity-60"
++          >
++            {loading ? "Creating Account..." : "Create Account"}
++          </button>
++
++          <p className="mt-6 text-center text-sm text-gray-300">
++            Already have an account?{" "}
++            <a href="../placeholderpage" className="text-[var(--custom-yellow)] hover:underline">
++                Sign in
++            </a>        
++        </p>
++
++          {error && (
++            <p className="mt-6 text-center text-sm text-red-400">
++              {error}
++            </p>
++          )}
++        </div>
++      </div>
++    </section>
++  );
++}
+diff --git a/warmagic/src/lib/firebase.js b/warmagic/src/lib/firebase.js
+index 4c22f65..89843ce 100644
+--- a/warmagic/src/lib/firebase.js
++++ b/warmagic/src/lib/firebase.js
+@@ -1,5 +1,7 @@
+ // Import the functions you need from the SDKs you need
+ import { initializeApp } from "firebase/app";
++import { getAuth } from "firebase/auth";
++import { getFirestore } from "firebase/firestore";
+ // TODO: Add SDKs for Firebase products that you want to use
+ // https://firebase.google.com/docs/web/setup#available-libraries
+ 
+@@ -14,4 +16,6 @@ const firebaseConfig = {
+ };
+ 
+ // Initialize Firebase
+-const app = initializeApp(firebaseConfig);
+\ No newline at end of file
++const app = initializeApp(firebaseConfig);
++export const auth = getAuth();
++export const db = getFirestore();
+\ No newline at end of file
