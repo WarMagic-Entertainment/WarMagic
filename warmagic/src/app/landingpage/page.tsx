@@ -12,9 +12,9 @@ export default function LandingPage() {
               <a href="./landingpage">WarMagic</a>
           </div>
           <div className="absolute top-[65px] right-[100px] flex gap-4">
-              <button className="px-10 py-4 text-[17px] text-white transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c] backdrop-blur">
+              <a href="../login"><button className="px-10 py-4 text-[17px] text-white transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c] backdrop-blur">
                   Sign in
-              </button>
+              </button></a>
               <a href="../register"><button className="px-10 py-4 text-[17px] text-white transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c] backdrop-blur">
                   Sign Up
               </button></a>
