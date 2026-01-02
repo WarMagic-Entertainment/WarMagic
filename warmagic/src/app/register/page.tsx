@@ -31,9 +31,9 @@ export default function RegisterPage() {
       await setDoc(doc(db, "users", uid), {
         username,
         email,
-        unlockedCards: [],
-        equippedCards: [],
-        unlockedSkins: [],
+        unlockedCards: ["fool", "magician", "empress", "moon", "hierophant", "emperor"],
+        equippedCards: ["fool", "magician", "empress", "moon", "hierophant", "emperor"],
+        unlockedSkins: ["player1"],
         activeSkin: null,
         createdAt: new Date(),
       });
