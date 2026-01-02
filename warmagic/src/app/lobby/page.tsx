@@ -31,7 +31,9 @@ export default function LobyPage() {
               Cybergrind
             </div>
           </div>
-          <div className="w-[700px] h-[410px] bg-[#202020] backdrop-blur-md rounded-lg"></div>
+          <div className="w-[700px] h-[410px] bg-[#202020] backdrop-blur-md rounded-lg">
+            <button><a href="../game">Play</a></button>
+          </div>
         </div>
       </div>
     </section>
