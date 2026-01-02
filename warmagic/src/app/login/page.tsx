@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   getAuth,
   sendPasswordResetEmail,
@@ -14,10 +15,13 @@ export default function LogingPage() {
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
-  const router = useRouter()
-  
+  const [loading, setLoading] = useState(false);
+
+  const [resetCooldown, setResetCooldown] = useState(0);
+
+  const router = useRouter();
+
   useEffect(() => {
     const savedEmail = localStorage.getItem("email");
     const savedPassword = localStorage.getItem("password");
@@ -26,15 +30,26 @@ export default function LogingPage() {
     if (savedPassword) setPassword(savedPassword);
   }, []);
 
+  useEffect(() => {
+    if (resetCooldown === 0) return;
+
+    const interval = setInterval(() => {
+      setResetCooldown((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [resetCooldown]);
+
   const firebaseErrors: Record<string, string> = {
     "auth/invalid-credential": "Wrong email or password",
-    "auth/user-not-found": "User do not exists",
+    "auth/user-not-found": "User does not exist",
     "auth/wrong-password": "Wrong password",
   };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setSuccess(null);
     setLoading(true);
 
     if (remember) {
@@ -47,8 +62,7 @@ export default function LogingPage() {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      console.log("Zalogowano!");
-      router.push("./lobby")
+      router.push("./lobby");
     } catch (err: any) {
       const code = err.code;
       setError(firebaseErrors[code] || "The error is unknown");
@@ -59,16 +73,18 @@ export default function LogingPage() {
 
   const handleResetPassword = async () => {
     if (!email) {
-      setError("Write here email to reset your password");
+      setError("Provide your email address to reset your password");
       return;
     }
 
-    const auth = getAuth();
+    if (resetCooldown > 0) return;
 
     try {
-      await sendPasswordResetEmail(auth, email);
+      const authInstance = getAuth();
+      await sendPasswordResetEmail(authInstance, email);
       setError(null);
-      setSuccess("Link has been send to your email");
+      setSuccess("A link has been sent to your email");
+      setResetCooldown(30);
     } catch (err: any) {
       const code = err.code;
       setError(firebaseErrors[code] || "The error is unknown");
@@ -86,24 +102,25 @@ export default function LogingPage() {
           backgroundImage:
             "url('/assets/background/main-pages-background/castle.png')",
         }}
-      ></div>
+      />
 
       <a
         href="../landingpage"
         className="absolute top-[65px] left-[100px] text-white text-[27px] font-bold z-10"
       >
-        Warmagic
+        WarMagic
       </a>
 
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-[600px] h-[650px] bg-[#202020] backdrop-blur-md rounded-lg px-10 py-12 text-white">
+        <div className="w-[600px] min-h-[650px] bg-[#202020] backdrop-blur-md rounded-lg px-10 py-12 text-white flex flex-col">
           <h1
-            className="text-[115px] font-bold text-center mb-10 "
+            className="text-[115px] font-bold text-center mb-10"
             style={{ color: "var(--custom-yellow)" }}
           >
             Sign in
           </h1>
-          <div className="space-y-6">
+
+          <form onSubmit={handleLogin} className="space-y-6 flex-1">
             <div>
               <label className="block mb-2 text-sm">Email</label>
               <input
@@ -111,17 +128,21 @@ export default function LogingPage() {
                 className="w-full px-4 py-3 bg-[#272727] rounded outline-none focus:ring-2 focus:ring-[var(--custom-yellow)]"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-              />{" "}
+              />
             </div>
+
             <div>
               <div className="flex justify-between">
                 <label className="block mb-2 text-sm">Password</label>
                 <button
                   type="button"
-                  className="underline"
+                  className="underline disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={handleResetPassword}
+                  disabled={resetCooldown > 0}
                 >
-                  Forgot password?
+                  {resetCooldown > 0
+                    ? `Try again in ${resetCooldown}s`
+                    : "Forgot password?"}
                 </button>
               </div>
 
@@ -132,32 +153,46 @@ export default function LogingPage() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-          </div>
-          <div>
-            <label className="flex items-center gap-2 cursor-pointer mt-4">
+
+            <label className="flex items-center gap-2 cursor-pointer">
               <input
                 type="checkbox"
                 className="hidden peer"
                 checked={remember}
                 onChange={(e) => setRemember(e.target.checked)}
               />
-              <div className="w-5 h-5 rounded border-2 border-gray-400 peer-checked:bg-[var(--custom-yellow)] peer-checked:animate-pulse transition"></div>
+              <div className="w-5 h-5 rounded border-2 border-gray-400 peer-checked:bg-[var(--custom-yellow)] peer-checked:animate-pulse transition" />
               Remember password
             </label>
+
             <button
-              onClick={handleLogin}
+              type="submit"
               disabled={loading}
-              className="w-full h-[83px] mt-10 px-10 py-4 text-[30px] text-[#FFFFFF] transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c] disabled:opacity-60"
+              className="w-full h-[83px] mt-6 px-10 py-4 text-[30px] text-white transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c] disabled:opacity-60"
             >
-              {loading ? "Loging in ..." : "Log in"}
+              {loading ? "Logging in..." : "Log in"}
             </button>
-          </div>
+          </form>
+
           {error && (
             <p className="mt-6 text-center text-sm text-red-400">{error}</p>
           )}
+
           {success && (
-            <p className="mt-6 text-center text-sm text-green-400">{success}</p>
+            <p className="mt-6 text-center text-sm text-green-400">
+              {success}
+            </p>
           )}
+
+          <p className="mt-8 text-center text-sm text-gray-400">
+            Don’t have an account?{" "}
+            <Link
+              href="../register"
+              className="text-[var(--custom-yellow)] hover:underline"
+            >
+              Sign up
+            </Link>
+          </p>
         </div>
       </div>
     </section>

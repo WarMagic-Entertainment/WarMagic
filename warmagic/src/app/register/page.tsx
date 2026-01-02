@@ -4,6 +4,8 @@ import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
@@ -11,6 +13,7 @@ export default function RegisterPage() {
   const [username, setUsername] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleRegister = async () => {
     setError(null);
@@ -40,6 +43,7 @@ export default function RegisterPage() {
       setPassword("");
 
       console.log("User created:", uid);
+      router.push('./lobby');
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -110,9 +114,12 @@ export default function RegisterPage() {
 
           <p className="mt-6 text-center text-sm text-gray-300">
             Already have an account?{" "}
-            <a href="../placeholderpage" className="text-[var(--custom-yellow)] hover:underline">
-                Sign in
-            </a>        
+            <Link
+              href="../login"
+              className="text-[var(--custom-yellow)] hover:underline"
+            >
+              Sign in
+            </Link>     
         </p>
 
           {error && (
