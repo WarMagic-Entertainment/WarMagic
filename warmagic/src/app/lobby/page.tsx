@@ -1,6 +1,11 @@
 "use client";
 
 export default function LobyPage() {
+  const handleClick = () => {
+    localStorage.setItem("showWelcome", "true");
+    localStorage.setItem("randomizeBg", "true");
+    window.location.href = "/game";
+  }
   return (
     <section
       className="relative min-h-screen w-screen"
@@ -32,7 +37,7 @@ export default function LobyPage() {
             </div>
           </div>
           <div className="w-[700px] h-[410px] bg-[#202020] backdrop-blur-md rounded-lg">
-            <button><a href="../game">Play</a></button>
+            <button onClick={handleClick}><a href="../game">Play</a></button>
           </div>
         </div>
       </div>

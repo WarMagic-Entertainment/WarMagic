@@ -8,14 +8,14 @@ export default function LandingPage() {
               className="absolute inset-0 bg-cover bg-center bg-no-repeat brightness-75"
               style={{ backgroundImage: "url('/assets/background/main-pages-background/castle.png')" }}
           ></div>
-          <div className="absolute top-[65px] left-[100px] text-white text-[27px] font-bold">
+          <div className="absolute top-[65px] left-[100px] text-white text-[20px] font-bold">
               <a href="./landingpage">WarMagic</a>
           </div>
           <div className="absolute top-[65px] right-[100px] flex gap-4">
               <a href="../login"><button className="px-10 py-4 text-[17px] text-white transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c] backdrop-blur">
                   Sign in
               </button></a>
-              <a href="../register"><button className="px-10 py-4 text-[17px] text-white transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c] backdrop-blur">
+              <a href="../register"><button className="px-10 py-4 text-[17px] text-white transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c] backdrop-blur ">
                   Sign Up
               </button></a>
           </div>
