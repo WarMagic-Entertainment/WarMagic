@@ -1,32 +1,166 @@
 "use client";
 
 import Image from 'next/image'
-import { use, useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 
 export default function GamePage() {
+  const [hover, setHover] = useState(false);
   const [visible, setVisible] = useState(false);
   const [roundCounter, setRoundCounter] = useState(1);
   const [layerCounter, setLayerCounter] = useState(1);
   const [bgImage, setBgImage] = useState<string>("");
-  const [potionCounter, setPotionCounter] = useState(3);
 
-  const [playerHp, setPlayerHp] = useState(6);
+  const [potionCounter, setPotionCounter] = useState<number>(() => {
+  const saved = localStorage.getItem("potionCounter");
+  return saved !== null ? Number(saved) : 3;
+});
+
+
+  useEffect(() => {
+  localStorage.setItem("potionCounter", potionCounter.toString());
+}, [potionCounter]);
+
+
+  
+
+
+
   const [enemyHp, setEnemyHp] = useState(6);
 
-  const [src, setSrc] = useState<string>("/assets/hp-bar/player-hp-bar/5hp/player-hb-5hp.png");
 
-  const handleClick = () => {
-    // ustawiamy GIF
-    setSrc(""); // resetujemy src, żeby React odświeżył komponent
-    setTimeout(() => {
-    setSrc("/assets/hp-bar/player-hp-bar/6hp/player-hb-6hp-1hp-up.gif");
 
-    // po czasie trwania GIF wracamy do statycznego obrazka
-    setTimeout(() => {
-      setSrc("/assets/hp-bar/player-hp-bar/6hp/player-hb-6hp.png");
-      }, 700); // długość animacji GIF
-    }, 1);// <-- tutaj wpisz dokładną długość GIF w ms
+  // Player hp systrem z animacją
+
+  const [playerHp, setPlayerHp] = useState(6);
+  const [prevHp, setPrevHp] = useState(6); 
+  const [stage, setStage] = useState<"idle" | "anim" | "after">("idle");
+
+  // Funkcja do zmiany HP
+  const changeHp = (amount: number) => {
+    if (stage === "anim") return; 
+    setPrevHp(playerHp);          
+    setPlayerHp((hp) => hp + amount);
+    setStage("anim");             
   };
+
+  // Obsługa renderowania
+  const renderHp = () => {
+    if (stage === "idle") {
+      return (
+        <Image
+          src={`/assets/hp-bar/player-hp-bar/${playerHp}hp/player-hb-${playerHp}hp.png`}
+          alt="hp-bar"
+          fill
+          className="object-contain"
+        />
+      );
+    }
+
+    if (stage === "anim") {
+    const isHealing = playerHp > prevHp; 
+
+    return (
+      <video
+        src={`/assets/hp-bar/player-hp-bar/${isHealing ? prevHp + 1 : prevHp}hp/player-hb-${isHealing ? prevHp + 1 : prevHp}hp-1hp-${isHealing ? "up" : "down"}.mp4`}
+        autoPlay
+        muted
+        playsInline
+        className="w-full h-full object-contain"
+        onEnded={() => {
+          setStage("after");       
+          setPrevHp(playerHp);  
+        }}
+      />
+    );
+  }
+
+    if (stage === "after") {
+      return (
+        <Image
+          src={`/assets/hp-bar/player-hp-bar/${playerHp}hp/player-hb-${playerHp}hp.png`}
+          alt="hp-bar-after"
+          fill
+          className="object-contain"
+          onLoad={() => setStage("idle")} 
+        />
+      );
+    }
+  };
+
+  // Zapisywanie i reset potek 
+
+    useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const savedHp = localStorage.getItem("playerHp");
+    if (savedHp !== null) {
+      const hp = Number(savedHp);
+      setPlayerHp(hp);
+      setPrevHp(hp);
+    }
+  }, []);
+
+  useEffect(() => {
+  if (typeof window === "undefined") return;
+  localStorage.setItem("playerHp", playerHp.toString());
+}, [playerHp]);
+
+  // Koniec systemu HP gracza
+
+
+  // Sprawdzanie żywotności postaci
+
+  const [playerState, setPlayerState] = useState<"alive" | "deadAnim" | "dead">("alive");
+
+  useEffect(() => {
+  if (playerHp === 0 && playerState === "alive") {
+    setPlayerState("deadAnim");
+  }
+  }, [playerHp, playerState]);
+
+  const renderPlayer = () => {
+  if (playerState === "alive") {
+    return (
+      <Image
+        src={`/assets/player/player1/player_ready.gif`}
+        alt="player"
+        width={700}
+        height={700}
+        className="absolute bottom-50 left-30 object-contain"
+      />
+    );
+  }
+
+ 
+  if (playerState === "deadAnim") {
+    return (
+      <video
+        src="/assets/player/player1/gelorbi_dead.mp4"
+        autoPlay
+        muted
+        playsInline
+        className="absolute bottom-50 left-30 w-[700px] h-[700px] object-contain"
+        onEnded={() => setPlayerState("dead")}
+      />
+    );
+  }
+
+
+  if (playerState === "dead") {
+    return (
+      <Image
+        src="/assets/player/player1/gelorbi_dead.png"
+        alt="player-dead"
+        width={700}
+        height={700}
+        className="absolute bottom-50 left-30 object-contain z-0"
+      />
+    );
+  }
+};
+
+  // Warstwa powitalna
+
 
   useEffect(() => {
     const show = localStorage.getItem("showWelcome");
@@ -38,6 +172,10 @@ export default function GamePage() {
       return () => clearTimeout(timer);
     }
   }, []);
+
+
+
+
 
 useEffect(() => {
     const backgrounds = [
@@ -85,7 +223,7 @@ useEffect(() => {
 
         {visible && (
           <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50">
-            <span className="text-7xl font-bold text-[var(--custom-yellow)]">
+            <span className="text-8xl font-bold text-[var(--custom-yellow)]">
               Layer {layerCounter}
             </span>
           </div>
@@ -124,17 +262,14 @@ useEffect(() => {
         >
           Koniec rundy
         </button>
+        <button onClick={() => changeHp(-1)}>
+          -1 HP Player
+        </button>
 
   {/* --------------------------------------- */}
 
         <div className="z-9">
-          <Image
-          src="/assets/player/player1/player_ready.gif"
-          alt='player'
-          width={700}
-          height={700}
-          className="absolute bottom-50 left-30 object-contain"
-        />
+          {renderPlayer()}
         <Image
           src="/assets/enemies/skeleton/skeleton-type1/Skeleton-Idle.gif"
           alt='enemy'
@@ -145,7 +280,7 @@ useEffect(() => {
         </div>
         
         <div className="bg-black/50 w-full flex items-center justify-center mt-auto p-4 z-10">
-          <button className="bg-red-500 font-bold p-5 px-12 gap-5 text-2xl flex items-center justify-center ml-30 transition-all duration-300 hover:shadow-lg hover:shadow-red-500/50">
+          <button className="bg-red-500 cursor-pointer font-bold p-5 px-12 gap-5 text-2xl flex items-center justify-center ml-30 transition-all duration-300 hover:shadow-[1px_0px_29px_0px_rgba(239,68,68,0.7)]">
             <Image
               src="/assets/icons/battle-icons/sword-svgrepo-com.svg"
               alt="sword"
@@ -159,28 +294,51 @@ useEffect(() => {
           <div className="relative w-full flex items-center justify-center flex-col">
             <h1 className="text-xl sm:text-3xl font-bold text-center mt-4">Nazwa2</h1>
             <div className="relative w-full max-w-[700px] h-[150px] mx-4 flex items-center justify-center">
-              <Image
-                src={src}
-                key={src} // wymusza rerender Image
-                alt="player-hp-bar"
-                fill
-                className="object-contain"
-              />
+              <div className="relative w-full max-w-[700px] h-[150px]">
+                <div className="relative w-full max-w-[700px] h-[150px] mx-4 flex items-center justify-center">
+                  {renderHp()}
+                </div>  
+              </div>
             </div>
           </div>
-          <button onClick={handleClick} className="bg-green-500 font-bold p-5 px-13 gap-4 text-2xl flex items-center justify-center mr-30 transition-all duration-300 hover:shadow-lg hover:shadow-green-500/50">
-            <Image
-              src="/assets/icons/battle-icons/potion-svgrepo-com (1).svg"
-              alt="potion"
-              width={24}
-              height={24}
-              className="object-contain"
-              style={{ filter: 'invert(1)' }}
-            />
-            <h1 className="whitespace-nowrap mt-2">Heal {potionCounter}</h1>
-          </button>
+            <button 
+              onMouseEnter={() => setHover(true)}
+              onMouseLeave={() => setHover(false)}
+              onClick={() => {
+                  if (stage === "idle" && potionCounter > 0) {
+                    changeHp(1);
+                    setPotionCounter(prev => prev - 1);
+                  }
+                }}
+                style={{
+                  backgroundColor: stage !== "idle" || potionCounter === 0 ? 'gray' : 'rgba(76, 175, 80, 1)',
+                  cursor: stage !== "idle" || potionCounter === 0 ? 'not-allowed' : 'pointer',
+                  boxShadow: (hover && stage === "idle" && potionCounter > 0) ? '1px 0px 29px 0px rgba(76, 175, 80, 1)' : 'none',
+                }} className="bg-green-500 font-bold p-5 px-13 gap-4 text-2xl flex items-center justify-center mr-30 transition-all duration-300 hover:shadow-lg hover:shadow-green-500/50">
+              <Image
+                src="/assets/icons/battle-icons/potion-svgrepo-com (1).svg"
+                alt="potion"
+                width={24}
+                height={24}
+                className="object-contain"
+                style={{ filter: 'invert(1)' }}
+              />
+              <h1 className="whitespace-nowrap mt-2">Heal {potionCounter}/3</h1>
+            </button>
         </div>
 
+            {playerState === "dead" && (
+      <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 z-50 mr-3">
+        <h1 className="text-8xl font-bold text-[var(--custom-yellow)] pb-50  mt-50">
+          GAME OVER
+        </h1>
+        <a href='../lobby'>
+          <button className="bg-red-500 cursor-pointer font-bold p-5 px-12 text-2xl flex items-center justify-center transition-all duration-300 hover:shadow-[1px_0px_29px_0px_rgba(239,68,68,0.7)]">
+            Lobby
+          </button>
+        </a>
+      </div>
+      )}
     </section>
   );
 }

@@ -2,9 +2,11 @@
 
 export default function LobyPage() {
   const handleClick = () => {
-    localStorage.setItem("showWelcome", "true");
-    localStorage.setItem("randomizeBg", "true");
-    window.location.href = "/game";
+      localStorage.setItem("potionCounter", "3");
+      localStorage.setItem("playerHp", "6");
+      localStorage.setItem("showWelcome", "true");
+      localStorage.setItem("randomizeBg", "true");
+      window.location.href = "/game";
   }
   return (
     <section
