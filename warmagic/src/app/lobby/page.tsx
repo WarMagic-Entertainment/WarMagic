@@ -2,11 +2,11 @@
 
 export default function LobyPage() {
   const handleClick = () => {
-      localStorage.setItem("potionCounter", "3");
-      localStorage.setItem("playerHp", "6");
-      localStorage.setItem("showWelcome", "true");
-      localStorage.setItem("randomizeBg", "true");
-      window.location.href = "/game";
+    localStorage.setItem("potionCounter", "3");
+    localStorage.setItem("playerHp", "6");
+    localStorage.setItem("showWelcome", "true");
+    localStorage.setItem("randomizeBg", "true");
+    window.location.href = "/game";
   }
   return (
     <section
@@ -20,15 +20,17 @@ export default function LobyPage() {
             "url('/assets/background/main-pages-background/castle.png')",
         }}
       ></div>
-<div className="absolute top-[35px] left-0 w-full flex justify-between px-[100px] text-white text-[27px] font-bold z-10">
-  <a href="../page">Warmagic</a>
-  <div>sadasd</div>
-</div>
+      <div className="absolute top-[35px] left-0 w-full flex justify-between px-[100px] text-white text-[27px] font-bold z-10">
+        <a href="../page">Warmagic</a>
+        <div>sadasd</div>
+      </div>
 
 
       <div className="py-[85px] px-[90px] flex justify-between">
         <div className="flex flex-col gap-5">
-          <div className="w-[600px] h-[220px] bg-[#202020] backdrop-blur-md rounded-lg"></div>
+          <a href="/equipment" className="w-[600px] h-[220px] bg-[#202020] backdrop-blur-md rounded-lg flex items-center justify-center hover:bg-[#303030] transition-all group cursor-pointer text-decoration-none">
+            <span className="text-white text-4xl font-bold group-hover:text-[var(--custom-yellow)]">Equipment</span>
+          </a>
           <div className="w-[600px] h-[310px] bg-[#202020] backdrop-blur-md rounded-lg"></div>
         </div>
 
