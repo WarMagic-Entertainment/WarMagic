@@ -21,9 +21,6 @@ export default function GamePage() {
 }, [potionCounter]);
 
 
-  
-
-
 
   const [enemyHp, setEnemyHp] = useState(6);
 
@@ -122,7 +119,7 @@ export default function GamePage() {
   if (playerState === "alive") {
     return (
       <Image
-        src={`/assets/player/player1/player_ready.gif`}
+        src={`/assets/player/player2/player_idle.gif`}
         alt="player"
         width={700}
         height={700}
@@ -135,7 +132,7 @@ export default function GamePage() {
   if (playerState === "deadAnim") {
     return (
       <video
-        src="/assets/player/player1/gelorbi_dead.mp4"
+        src="/assets/player/player2/player_dead.mp4"
         autoPlay
         muted
         playsInline
@@ -149,7 +146,7 @@ export default function GamePage() {
   if (playerState === "dead") {
     return (
       <Image
-        src="/assets/player/player1/gelorbi_dead.png"
+        src="/assets/player/player2/player_dead.png"
         alt="player-dead"
         width={700}
         height={700}
@@ -175,7 +172,7 @@ export default function GamePage() {
 
 
 
-
+  // Losowe tło
 
 useEffect(() => {
     const backgrounds = [
@@ -245,7 +242,7 @@ useEffect(() => {
           </div>
         </div>
 
-  {/*--------- Do testowania layerów --------*/} 
+  {/* --------- Do testowania layerów -------- */} 
 
         <button
           onClick={() => {
@@ -266,7 +263,7 @@ useEffect(() => {
           -1 HP Player
         </button>
 
-  {/* --------------------------------------- */}
+  {/* ---------------------------------------- */}
 
         <div className="z-9">
           {renderPlayer()}
