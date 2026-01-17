@@ -36,6 +36,9 @@ export default function RegisterPage() {
         unlockedSkins: ["player1"],
         activeSkin: null,
         createdAt: new Date(),
+        xp: 0,
+        layer: 0,
+        level: 1
       });
 
       setEmail("");
