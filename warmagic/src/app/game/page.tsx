@@ -1,9 +1,6 @@
 "use client";
 
 import AuthGuard from "@/components/AuthGuard";
-import { auth, db } from "@/lib/firebase";
-import { onAuthStateChanged } from "firebase/auth";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -13,41 +10,27 @@ import GameHUD from "./components/GameHUD";
 import GameOverOverlay from "./components/GameOverOverlay";
 import PlayerSprite from "./components/PlayerSprite";
 import { CARD_DATA } from "./constants";
-
-interface Enemy {
-  id: string;
-  name: string;
-  hp: number;
-  dmg: number;
-  xp: number;
-}
-
-interface CardState {
-  lastUsedRound: number;
-  lastUsedLayer: number;
-  usesLeft: number;
-}
+import { useGameData } from "./hooks/useGameData";
+import { useCardLogic } from "./hooks/useCardLogic";
+import { useGamePersistence } from "./hooks/useGamePersistence";
+import { Enemy } from "./types";
 
 export default function GamePage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
 
-
+  const { loading, equippedCards, cardInfos, enemies, playerName } = useGameData();
   const [layer, setLayer] = useState(1);
   const [round, setRound] = useState(1);
+  const { isCardReady, recordCardUsage, parseCooldown, setCardStates } = useCardLogic(round, layer, cardInfos);
+  const { saveProgress } = useGamePersistence(layer);
+
   const [turn, setTurn] = useState<'player' | 'enemy'>('player');
   const [gameStatus, setGameStatus] = useState<'playing' | 'won' | 'lost'>('playing');
 
   const [playerHp, setPlayerHp] = useState(6);
-  const [prevHp, setPrevHp] = useState(6); // For anim
+  const [prevHp, setPrevHp] = useState(6);
   const [playerState, setPlayerState] = useState<"idle" | "attack" | "hit" | "dead" | "deadAnim">("idle");
-  const [playerName, setPlayerName] = useState<string>("Player");
-  const [equippedCards, setEquippedCards] = useState<string[]>([]);
-  const [cardInfos, setCardInfos] = useState<Record<string, any>>({});
 
-  const [cardStates, setCardStates] = useState<Record<string, CardState>>({});
-
-  const [enemies, setEnemies] = useState<Enemy[]>([]);
   const [currentEnemy, setCurrentEnemy] = useState<Enemy | null>(null);
   const [enemyHp, setEnemyHp] = useState(0);
   const [prevEnemyHp, setPrevEnemyHp] = useState(0);
@@ -69,73 +52,12 @@ export default function GamePage() {
     }
   }, [showCards]);
 
-  const parseCooldown = (cdString: string) => {
-    if (!cdString || cdString.length < 2) return cdString;
-    const typeChar = cdString.charAt(0).toLowerCase();
-    const value = cdString.substring(1);
-
-    let typeLabel = "";
-    switch (typeChar) {
-      case 'r': typeLabel = "Rounds"; break;
-      case 'l': typeLabel = "Levels"; break;
-      case 'u': typeLabel = "Uses"; break;
-      default: typeLabel = "";
-    }
-
-    return `${value} ${typeLabel}`;
-  };
-
+  // Initial Spawn
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        setLoading(false);
-        return;
-      }
-      try {
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          setEquippedCards(userData.equippedCards || []);
-          setPlayerName(userData.username || "Player");
-        }
-        const cardSnap = await getDocs(collection(db, "cards"));
-        const infos: Record<string, any> = {};
-        cardSnap.forEach(d => {
-          const data = d.data();
-          infos[data.name] = data;
-        });
-        setCardInfos(infos);
-
-      } catch (e) {
-        console.error("Error fetching user/card data", e);
-      }
-
-      try {
-        const enemySnap = await getDocs(collection(db, "enemies"));
-        const loadedEnemies: Enemy[] = [];
-        enemySnap.forEach(d => {
-          const data = d.data();
-          loadedEnemies.push({
-            id: d.id,
-            name: data.name,
-            hp: data.hp,
-            dmg: data.dmg,
-            xp: data.xp
-          } as Enemy);
-        });
-        setEnemies(loadedEnemies);
-        if (loadedEnemies.length > 0) {
-          spawnEnemy(loadedEnemies);
-        }
-      } catch (e) {
-        console.error("Error fetching enemies", e);
-      }
-
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, []);
+    if (enemies.length > 0 && !currentEnemy) {
+      spawnEnemy(enemies);
+    }
+  }, [enemies]);
 
   const spawnEnemy = (enemyList: Enemy[]) => {
     if (enemyList.length === 0) return;
@@ -149,70 +71,6 @@ export default function GamePage() {
     setEnemyState("idle");
     setRound(1);
     setTurn('player');
-  };
-
-  const getCardCooldownState = (cardKey: string) => {
-    if (!cardInfos[cardKey]) return null;
-    const cdString = cardInfos[cardKey].cooldown;
-    if (!cdString) return null;
-
-    const type = cdString.charAt(0).toLowerCase();
-    let valStr = "";
-    let parsedType = "";
-
-    if (type === 'f' && cdString.charAt(1) === 'u') {
-      parsedType = 'u';
-      valStr = cdString.substring(2);
-    } else {
-      parsedType = type;
-      valStr = cdString.substring(1);
-    }
-
-    const val = parseInt(valStr) || 1;
-
-    return { type: parsedType, val };
-  };
-
-  const isCardReady = (cardKey: string) => {
-    const state = cardStates[cardKey];
-    const cd = getCardCooldownState(cardKey);
-    if (!cd) return true;
-
-    if (cd.type === 'u') {
-      if (state && state.usesLeft <= 0) return false;
-      return true;
-    }
-    if (cd.type === 'r') {
-      if (!state) return true;
-      return (round - state.lastUsedRound) >= cd.val;
-    }
-    if (cd.type === 'l') {
-      if (!state) return true;
-      return (layer - state.lastUsedLayer) >= cd.val;
-    }
-    return true;
-  };
-
-  const recordCardUsage = (cardKey: string) => {
-    const cd = getCardCooldownState(cardKey);
-    setCardStates(prev => {
-      const defaults = {
-        lastUsedRound: -999,
-        lastUsedLayer: -999,
-        usesLeft: cd?.type === 'u' ? cd.val : 999
-      };
-
-      const current = prev[cardKey] || defaults;
-
-      return {
-        ...prev,
-        [cardKey]: {
-          lastUsedRound: round,
-          lastUsedLayer: layer,
-          usesLeft: cd?.type === 'u' ? (current.usesLeft - 1) : current.usesLeft
-        }
-      };
-    });
   };
 
   const handlePlayerAttack = (cardKey: string) => {
@@ -316,7 +174,10 @@ export default function GamePage() {
 
   const handleEnemyDeath = () => {
     setEnemyState("dead");
-    //XP Gain
+
+    if (currentEnemy) {
+      saveProgress(currentEnemy.xp);
+    }
 
     setTimeout(() => {
       setLayer(l => l + 1);
@@ -356,7 +217,7 @@ export default function GamePage() {
     <AuthGuard>
       <section
         className="relative min-h-screen w-screen flex flex-col overflow-hidden"
-        style={{ 
+        style={{
           fontFamily: "IsoCore",
           backgroundImage: bgImage ? `url(${bgImage})` : 'none',
           backgroundSize: 'cover',

@@ -10,11 +10,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import AuthGuard from "@/components/AuthGuard";
 
-export async function top3Users() {
+export async function top50Users() {
   const q = query(
     collection(db, "users"),
     orderBy("xp", "desc"),
-    limit(3)
+    limit(50)
   );
 
   const snap = await getDocs(q);
@@ -40,7 +40,7 @@ export async function getAllUsersSorted() {
 }
 
 export async function rankingWithCurrentUser(uid: string) {
-  const top3 = await top3Users();
+  const top50 = await top50Users();
   const all = await getAllUsersSorted();
 
   const index = all.findIndex(u => u.id === uid);
@@ -53,7 +53,7 @@ export async function rankingWithCurrentUser(uid: string) {
 
 
   return {
-    top3,
+    top50,
     currentUser,
     currentUserPosition: index + 1
   }
@@ -62,7 +62,7 @@ export async function rankingWithCurrentUser(uid: string) {
 export default function LobyPage() {
   const router = useRouter();
   type RankingData = {
-    top3: any[];
+    top50: any[];
     currentUser: any | null;
     currentUserPosition: number;
   }
@@ -107,7 +107,7 @@ export default function LobyPage() {
 }
 
 function LobbyContent({ data, handleLogout }: { data: any, handleLogout: () => void }) {
-  const { top3, currentUser, currentUserPosition } = data;
+  const { top50, currentUser, currentUserPosition } = data;
   return (
     <section
       className="relative min-h-screen w-screen"
@@ -135,32 +135,69 @@ function LobbyContent({ data, handleLogout }: { data: any, handleLogout: () => v
       </div>
       <div className="py-16 sm:py-20 lg:py-[85px] px-4 sm:px-8 lg:px-[90px] flex flex-col lg:flex-row justify-between gap-6 lg:gap-0">
         <div className="flex flex-col gap-4 sm:gap-5 w-full lg:w-auto">
-          <div className="w-full lg:w-[600px] min-h-[180px] sm:h-[220px] bg-[#202020] backdrop-blur-md rounded-lg p-4 sm:p-6">
+          <div className="w-full lg:w-[600px] min-h-[180px] sm:h-[220px] bg-[#202020] backdrop-blur-md rounded-lg p-6 sm:p-8 flex flex-col justify-center gap-4">
             {currentUser ? (
               <>
-                <div className="text-base sm:text-lg lg:text-xl">Level: {currentUser.level}</div>
-                <div className="text-base sm:text-lg lg:text-xl">Xp: {currentUser.xp}</div>
+                <div className="flex justify-between items-end">
+                  <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
+                    Level <span className="text-[var(--custom-yellow)]">{currentUser.level}</span>
+                  </div>
+                  <div className="text-sm sm:text-base text-gray-400 font-mono">
+                    {currentUser.xp % 300} / 300 XP
+                  </div>
+                </div>
+
+                <div className="w-full h-4 sm:h-5 bg-black/50 rounded-full overflow-hidden border border-gray-700 relative">
+                  <div
+                    className="h-full bg-[var(--custom-yellow)] shadow-[0_0_10px_var(--custom-yellow)] transition-all duration-500 ease-out"
+                    style={{ width: `${((currentUser.xp % 300) / 300) * 100}%` }}
+                  ></div>
+                </div>
+
+                <div className="text-right text-xs text-gray-500">
+                  Total XP: {currentUser.xp}
+                </div>
               </>
             ) : (
-              <div>User data not available</div>
+              <div className="text-gray-500">User data not available</div>
             )}
           </div>
-          <div className="w-full lg:w-[600px] min-h-[250px] sm:h-[310px] bg-[#202020] backdrop-blur-md rounded-lg p-4 sm:p-6">
-            <div className="text-base sm:text-lg lg:text-xl font-bold mb-2">Ranking</div>
-            <ol className="space-y-1 text-sm sm:text-base">
-              {top3.map((u: any, i: number) => (
-                <li key={u.id}>
-                  {i + 1}. {u.username} - {u.xp} xp
-                </li>
+          <div className="w-full lg:w-[600px] h-[500px] bg-[#202020] backdrop-blur-md rounded-lg p-4 sm:p-6 flex flex-col relative overflow-hidden">
+            <div className="text-base sm:text-lg lg:text-xl font-bold mb-4 flex justify-between px-2">
+              <span>Ranking</span>
+              <span className="text-gray-400 text-sm">Top 50</span>
+            </div>
+
+            <div className="flex text-xs text-gray-400 px-2 mb-2 font-bold uppercase tracking-wider">
+              <div className="w-12 text-center">#</div>
+              <div className="flex-1">Player</div>
+              <div className="w-16 text-center">Lvl</div>
+              <div className="w-20 text-center">XP</div>
+              <div className="w-16 text-center">Layer</div>
+            </div>
+
+            <div className="flex-1 overflow-y-auto pr-2 space-y-1 custom-scrollbar pb-16">
+              {top50.map((u: any, i: number) => (
+                <div key={u.id} className={`flex items-center px-2 py-2 rounded text-sm sm:text-base ${u.id === currentUser?.id ? 'bg-[var(--custom-yellow)] text-black font-bold' : 'hover:bg-white/5 text-gray-300'}`}>
+                  <div className="w-12 text-center font-mono opacity-70">{i + 1}</div>
+                  <div className="flex-1 truncate">{u.username}</div>
+                  <div className="w-16 text-center">{u.level}</div>
+                  <div className="w-20 text-center font-mono text-xs sm:text-sm">{u.xp}</div>
+                  <div className="w-16 text-center">{u.layer || '-'}</div>
+                </div>
               ))}
-            </ol>
+            </div>
 
-            <div className="mt-4 text-base sm:text-lg lg:text-xl font-bold">Your Result</div>
-            {currentUserPosition <= 3 ? (
-              <p className="text-sm sm:text-base">You are in top 3</p>
-            ) : (
-              <p className="text-sm sm:text-base">Your place: {currentUserPosition} <br /> {currentUser.username} - {currentUser.xp}xp</p>
-
+            {currentUser && (
+              <div className="absolute bottom-0 left-0 w-full bg-[#303030] border-t border-[var(--custom-yellow)] p-2 shadow-xl">
+                <div className="flex items-center px-4 py-2 text-sm sm:text-base text-[var(--custom-yellow)] font-bold">
+                  <div className="md:w-12 w-8 text-center">{currentUserPosition}</div>
+                  <div className="flex-1 truncate">{currentUser.username}</div>
+                  <div className="w-16 text-center">{currentUser.level}</div>
+                  <div className="w-20 text-center font-mono text-xs sm:text-sm">{currentUser.xp}</div>
+                  <div className="w-16 text-center">{currentUser.layer || '-'}</div>
+                </div>
+              </div>
             )}
           </div>
         </div>
