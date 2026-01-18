@@ -67,13 +67,13 @@ export default function RegisterPage() {
         }}
       ></div>
   
-      <a href="../landingpage" className="absolute top-[65px] left-[100px] text-white text-[27px] font-bold z-10">
+      <a href="../landingpage" className="absolute top-4 sm:top-[65px] left-4 sm:left-[100px] text-white text-lg sm:text-2xl lg:text-[27px] font-bold z-10">
         WarMagic
       </a>
   
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-[600px] h-[750px] bg-[#202020] backdrop-blur-md rounded-lg px-10 py-12 text-white">
-          <h1 className="text-[115px] font-bold text-center mb-10 text-[var(--custom-yellow)]">
+      <div className="absolute inset-0 flex items-center justify-center p-4">
+        <div className="w-full max-w-[600px] min-h-[600px] sm:h-[750px] bg-[#202020] backdrop-blur-md rounded-lg px-4 sm:px-10 py-6 sm:py-12 text-white">
+          <h1 className="text-5xl sm:text-7xl md:text-9xl lg:text-[115px] font-bold text-center mb-6 sm:mb-10 text-[var(--custom-yellow)]">
             Sign up
           </h1>
   
@@ -110,7 +110,7 @@ export default function RegisterPage() {
           <button
             onClick={handleRegister}
             disabled={loading}
-            className="w-full h-[83px] mt-10 px-10 py-4 text-[30px] text-[#FFFFFF] transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c] disabled:opacity-60"
+            className="w-full h-12 sm:h-16 lg:h-[83px] mt-6 sm:mt-10 px-4 sm:px-10 py-2 sm:py-4 text-lg sm:text-2xl lg:text-[30px] text-[#FFFFFF] transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c] disabled:opacity-60"
           >
             {loading ? "Creating Account..." : "Create Account"}
           </button>

@@ -121,33 +121,33 @@ function LobbyContent({ data, handleLogout }: { data: any, handleLogout: () => v
         }}
       >
       </div>
-      <div className="absolute top-[35px] left-0 w-full flex justify-between px-[100px] text-white text-[27px] font-bold z-10">
+      <div className="absolute top-4 sm:top-[35px] left-0 w-full flex flex-col sm:flex-row justify-between px-4 sm:px-8 lg:px-[100px] text-white text-lg sm:text-xl lg:text-[27px] font-bold z-10 gap-2 sm:gap-0">
         <Link href="../landingpage">WarMagic</Link>
-        <div className="flex items-center gap-4">
-          <div>{currentUser ? (currentUser.username) : (<div>No user found</div>)}</div>
+        <div className="flex items-center gap-2 sm:gap-4 text-sm sm:text-base lg:text-lg">
+          <div className="truncate max-w-[150px] sm:max-w-none">{currentUser ? (currentUser.username) : (<div>No user found</div>)}</div>
           <button
             onClick={handleLogout}
-            className="text-sm border border-red-500 text-red-500 hover:bg-red-500 hover:text-white px-3 py-1 rounded transition-colors"
+            className="text-xs sm:text-sm border border-red-500 text-red-500 hover:bg-red-500 hover:text-white px-2 sm:px-3 py-1 rounded transition-colors whitespace-nowrap"
           >
             Logout
           </button>
         </div>
       </div>
-      <div className="py-[85px] px-[90px] flex justify-between">
-        <div className="flex flex-col gap-5">
-          <div className="w-[600px] h-[220px] bg-[#202020] backdrop-blur-md rounded-lg">
+      <div className="py-16 sm:py-20 lg:py-[85px] px-4 sm:px-8 lg:px-[90px] flex flex-col lg:flex-row justify-between gap-6 lg:gap-0">
+        <div className="flex flex-col gap-4 sm:gap-5 w-full lg:w-auto">
+          <div className="w-full lg:w-[600px] min-h-[180px] sm:h-[220px] bg-[#202020] backdrop-blur-md rounded-lg p-4 sm:p-6">
             {currentUser ? (
               <>
-                <div>Level: {currentUser.level}</div>
-                <div>Xp: {currentUser.xp}</div>
+                <div className="text-base sm:text-lg lg:text-xl">Level: {currentUser.level}</div>
+                <div className="text-base sm:text-lg lg:text-xl">Xp: {currentUser.xp}</div>
               </>
             ) : (
               <div>User data not available</div>
             )}
           </div>
-          <div className="w-[600px] h-[310px] bg-[#202020] backdrop-blur-md rounded-lg">
-            <div>Ranking</div>
-            <ol>
+          <div className="w-full lg:w-[600px] min-h-[250px] sm:h-[310px] bg-[#202020] backdrop-blur-md rounded-lg p-4 sm:p-6">
+            <div className="text-base sm:text-lg lg:text-xl font-bold mb-2">Ranking</div>
+            <ol className="space-y-1 text-sm sm:text-base">
               {top3.map((u: any, i: number) => (
                 <li key={u.id}>
                   {i + 1}. {u.username} - {u.xp} xp
@@ -155,41 +155,43 @@ function LobbyContent({ data, handleLogout }: { data: any, handleLogout: () => v
               ))}
             </ol>
 
-            Your Result
+            <div className="mt-4 text-base sm:text-lg lg:text-xl font-bold">Your Result</div>
             {currentUserPosition <= 3 ? (
-              <p>You are in top 3</p>
+              <p className="text-sm sm:text-base">You are in top 3</p>
             ) : (
-              <p>Your place: {currentUserPosition} <br /> {currentUser.username} - {currentUser.xp}xp</p>
+              <p className="text-sm sm:text-base">Your place: {currentUserPosition} <br /> {currentUser.username} - {currentUser.xp}xp</p>
 
             )}
           </div>
         </div>
 
-        <div className="flex flex-col gap-5 items-end">
-          <div className="flex flex-row px-2 py-2 w-[700px] h-[70px] bg-[#202020] backdrop-blur-md rounded-lg gap-2">
-            <div className="flex items-center justify-start px-5 w-[650px] h-[50px] bg-[#EA2603] backdrop-blur-md rounded-lg gap-2">
+        <div className="flex flex-col gap-4 sm:gap-5 items-stretch lg:items-end w-full lg:w-auto">
+          <div className="flex flex-row px-2 py-2 w-full lg:w-[700px] h-[60px] sm:h-[70px] bg-[#202020] backdrop-blur-md rounded-lg gap-2">
+            <div className="flex items-center justify-start px-3 sm:px-5 flex-1 lg:w-[650px] h-[46px] sm:h-[50px] bg-[#EA2603] backdrop-blur-md rounded-lg gap-2">
               <Image
                 style={{ filter: "invert(1)" }}
                 src="./assets/icons/menu-icons/mode-battlegrounds-svgrepo-com.svg"
                 alt="Battlegrounds mode image"
-                width={50}
-                height={50}
+                width={40}
+                height={40}
+                className="sm:w-[50px] sm:h-[50px]"
               />
-              <div className="font-bold text-2xl">Cybergrind</div>
+              <div className="font-bold text-lg sm:text-xl lg:text-2xl">Cybergrind</div>
             </div>
-            <div className="flex items-center justify-start p-2 w-[50px] h-[50px] bg-[#FFD080] backdrop-blur-md rounded-lg">
+            <div className="flex items-center justify-start p-2 w-[46px] sm:w-[50px] h-[46px] sm:h-[50px] bg-[#FFD080] backdrop-blur-md rounded-lg shrink-0">
               <Image
                 src="./assets/icons/menu-icons/tower-fall-svgrepo-com.svg"
                 alt="tower fall image"
-                width={50}
-                height={50}
+                width={40}
+                height={40}
+                className="sm:w-[50px] sm:h-[50px]"
                 style={{ filter: "invert(1)" }}
               />
             </div>
           </div>
-          <div className="w-[700px] h-[580px] bg-[#202020] backdrop-blur-md rounded-lg px-10 py-10">
+          <div className="w-full lg:w-[700px] min-h-[500px] sm:h-[580px] bg-[#202020] backdrop-blur-md rounded-lg px-4 sm:px-6 lg:px-10 py-6 sm:py-10">
             <div
-              className=" bg-cover bg-center bg-no-repeat brightness-75 w-[620px] h-[300px]"
+              className="bg-cover bg-center bg-no-repeat brightness-75 w-full h-[200px] sm:h-[250px] lg:h-[300px] lg:w-[620px] mx-auto"
               style={{
                 backgroundImage:
                   "url('/assets/background/battle-background/library.jpg')",
@@ -199,7 +201,7 @@ function LobbyContent({ data, handleLogout }: { data: any, handleLogout: () => v
               href="../game"
               className="text-[var(--custom-yellow)] hover:underline"
             >
-              <button className="w-full h-[70px] mt-10 px-10 py-4 text-[30px] text-[#FFFFFF] transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c] disabled:opacity-60">
+              <button className="w-full h-12 sm:h-16 lg:h-[70px] mt-6 sm:mt-10 px-4 sm:px-10 py-2 sm:py-4 text-lg sm:text-2xl lg:text-[30px] text-[#FFFFFF] transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c] disabled:opacity-60">
                 Play
               </button>
             </Link>
@@ -207,7 +209,7 @@ function LobbyContent({ data, handleLogout }: { data: any, handleLogout: () => v
               href="../equipment"
               className="text-[var(--custom-yellow)] hover:underline"
             >
-              <button className="w-full h-[70px] mt-10 px-10 py-4 text-[30px] text-[#FFFFFF] transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c] disabled:opacity-60">
+              <button className="w-full h-12 sm:h-16 lg:h-[70px] mt-4 sm:mt-10 px-4 sm:px-10 py-2 sm:py-4 text-lg sm:text-2xl lg:text-[30px] text-[#FFFFFF] transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c] disabled:opacity-60">
                 Equipment
               </button>
             </Link>

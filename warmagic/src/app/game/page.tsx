@@ -6,6 +6,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import ActionBar from "./components/ActionBar";
 import EnemySprite from "./components/EnemySprite";
 import GameHUD from "./components/GameHUD";
@@ -40,6 +41,7 @@ export default function GamePage() {
   const [playerHp, setPlayerHp] = useState(6);
   const [prevHp, setPrevHp] = useState(6); // For anim
   const [playerState, setPlayerState] = useState<"idle" | "attack" | "hit" | "dead" | "deadAnim">("idle");
+  const [playerName, setPlayerName] = useState<string>("Player");
   const [equippedCards, setEquippedCards] = useState<string[]>([]);
   const [cardInfos, setCardInfos] = useState<Record<string, any>>({});
 
@@ -59,6 +61,13 @@ export default function GamePage() {
   const [hover, setHover] = useState(false);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [showCards, setShowCards] = useState(false);
+
+  useEffect(() => {
+    if (!showCards) {
+      setHoveredCard(null);
+    }
+  }, [showCards]);
 
   const parseCooldown = (cdString: string) => {
     if (!cdString || cdString.length < 2) return cdString;
@@ -85,7 +94,9 @@ export default function GamePage() {
       try {
         const userDoc = await getDoc(doc(db, "users", user.uid));
         if (userDoc.exists()) {
-          setEquippedCards(userDoc.data().equippedCards || []);
+          const userData = userDoc.data();
+          setEquippedCards(userData.equippedCards || []);
+          setPlayerName(userData.username || "Player");
         }
         const cardSnap = await getDocs(collection(db, "cards"));
         const infos: Record<string, any> = {};
@@ -210,6 +221,7 @@ export default function GamePage() {
       return;
     }
     recordCardUsage(cardKey);
+    setShowCards(false);
 
     const dmg = 2;
     setEnemyHp((prev) => {
@@ -244,6 +256,7 @@ export default function GamePage() {
 
   const handleSkip = () => {
     if (turn !== 'player') return;
+    setShowCards(false);
     setTurn('enemy');
     setTimeout(handleEnemyTurn, 1000);
   };
@@ -285,6 +298,7 @@ export default function GamePage() {
 
     changeHp(-dmg);
     setPlayerState("hit");
+    setShowCards(false);
 
     setRound(r => r + 1);
     setTurn('player');
@@ -327,9 +341,14 @@ export default function GamePage() {
       ];
       const r = Math.floor(Math.random() * backgrounds.length);
       setBgImage(backgrounds[r]);
-      document.body.style.backgroundImage = `url(${backgrounds[r]})`;
     }
   }, []);
+
+  const handleAttackClick = () => {
+    if (turn === 'player') {
+      setShowCards(!showCards);
+    }
+  };
 
   if (loading) return <div className="h-screen w-screen bg-black text-white flex items-center justify-center">Loading Battle...</div>;
 
@@ -337,25 +356,31 @@ export default function GamePage() {
     <AuthGuard>
       <section
         className="relative min-h-screen w-screen flex flex-col overflow-hidden"
-        style={{ fontFamily: "IsoCore" }}
+        style={{ 
+          fontFamily: "IsoCore",
+          backgroundImage: bgImage ? `url(${bgImage})` : 'none',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
         onMouseMove={(e) => setMousePos({ x: e.clientX, y: e.clientY })}
       >
         {hoveredCard && cardInfos[hoveredCard] && (
           <div
-            className="fixed pointer-events-none z-[100] w-[300px] bg-black/90 border border-[var(--custom-yellow)] rounded-lg p-4 text-white shadow-[0_0_20px_rgba(0,0,0,0.8)] backdrop-blur-md"
+            className="fixed pointer-events-none z-[100] w-[250px] sm:w-[300px] bg-black/90 border border-[var(--custom-yellow)] rounded-lg p-3 sm:p-4 text-white shadow-[0_0_20px_rgba(0,0,0,0.8)] backdrop-blur-md"
             style={{
               top: Math.min(mousePos.y + 20, window.innerHeight - 320) + 'px',
-              left: Math.min(mousePos.x + 20, window.innerWidth - 320) + 'px'
+              left: Math.min(mousePos.x + 20, window.innerWidth - 280) + 'px'
             }}
           >
-            <h3 className="text-[var(--custom-yellow)] text-xl font-bold mb-2">
+            <h3 className="text-[var(--custom-yellow)] text-base sm:text-lg lg:text-xl font-bold mb-2">
               {CARD_DATA[hoveredCard]?.name || hoveredCard}
             </h3>
-            <div className="text-sm text-gray-300 mb-4 italic">
+            <div className="text-xs sm:text-sm text-gray-300 mb-3 sm:mb-4 italic">
               {cardInfos[hoveredCard].description}
             </div>
 
-            <div className="flex flex-col gap-1 text-xs">
+            <div className="flex flex-col gap-1 text-[10px] sm:text-xs">
               <div className="flex justify-between">
                 <span className="text-gray-400">Cooldown:</span>
                 <span className="font-bold text-white">{parseCooldown(cardInfos[hoveredCard].cooldown)}</span>
@@ -372,7 +397,7 @@ export default function GamePage() {
 
         {showWelcome && (
           <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm pointer-events-none">
-            <span className="text-8xl font-bold text-[var(--custom-yellow)] animate-pulse">
+            <span className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-[var(--custom-yellow)] animate-pulse">
               Layer {layer}
             </span>
           </div>
@@ -402,6 +427,43 @@ export default function GamePage() {
           />
         </div>
 
+        {showCards && turn === 'player' && (
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-30 bg-black/80 backdrop-blur-md p-4 sm:p-5 md:p-6 shadow-2xl overflow-visible border-t-2 border-l-2 border-r-2 border-[var(--custom-yellow)]">
+            <div className="flex gap-1.5 sm:gap-2 md:gap-2.5 justify-center items-center overflow-visible">
+              {equippedCards.map((cardKey, idx) => {
+                const isReady = isCardReady(cardKey);
+                const cardData = CARD_DATA[cardKey];
+                if (!cardKey || !cardData) return null;
+
+                return (
+                  <div
+                    key={idx}
+                    onClick={() => isReady && handlePlayerAttack(cardKey)}
+                    onMouseEnter={() => setHoveredCard(cardKey)}
+                    onMouseLeave={() => setHoveredCard(null)}
+                    className={`relative w-12 sm:w-16 md:w-20 lg:w-24 xl:w-28 aspect-[2/3] rounded transition-all duration-200 shrink-0 overflow-hidden z-10
+                      ${isReady ? 'cursor-pointer hover:brightness-110 hover:scale-110 hover:z-20' : 'cursor-not-allowed opacity-50 grayscale'}
+                    `}
+                  >
+                    <Image
+                      src={`/assets/cards/${cardData.file}`}
+                      alt={cardData.name}
+                      fill
+                      className="object-contain rounded"
+                      style={{ objectFit: 'contain' }}
+                    />
+                    {!isReady && (
+                      <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center text-[8px] sm:text-[10px] text-white font-bold text-center p-1">
+                        <span>COOLDOWN</span>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
         <ActionBar
           equippedCards={equippedCards}
           isCardReady={isCardReady}
@@ -411,8 +473,10 @@ export default function GamePage() {
           prevHp={prevHp}
           stage={stage}
           potionCounter={potionCounter}
+          playerName={playerName}
           handleHeal={handleHeal}
           handleSkip={handleSkip}
+          handleAttackClick={handleAttackClick}
           setHover={setHover}
           hover={hover}
           setStage={setStage}

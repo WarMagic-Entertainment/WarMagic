@@ -168,34 +168,34 @@ export default function EquipmentPage() {
                         backgroundImage: "url('/assets/background/main-pages-background/castle.png')",
                     }}
                 ></div>
-                <div className="absolute top-[35px] left-0 w-full flex justify-between px-[100px] text-white text-[27px] font-bold z-10">
-                    <div className="flex gap-10">
-                        <a href="/lobby" className="hover:text-[var(--custom-yellow)] transition-colors">Back to Lobby</a>
+                <div className="absolute top-4 sm:top-[35px] left-0 w-full flex flex-col sm:flex-row justify-between px-4 sm:px-8 lg:px-[100px] text-white text-lg sm:text-xl lg:text-[27px] font-bold z-10 gap-2 sm:gap-0">
+                    <div className="flex gap-4 sm:gap-10">
+                        <a href="/lobby" className="hover:text-[var(--custom-yellow)] transition-colors text-sm sm:text-base lg:text-lg">Back to Lobby</a>
                     </div>
-                    <div className="flex gap-4 items-center">
-                        <span>Equipment</span>
+                    <div className="flex gap-2 sm:gap-4 items-center">
+                        <span className="text-sm sm:text-base lg:text-lg">Equipment</span>
                         <button
                             onClick={handleSave}
                             disabled={saving}
-                            className="text-sm bg-[var(--custom-yellow)] text-black px-4 py-2 rounded hover:bg-[#ebbc6c] disabled:opacity-50"
+                            className="text-xs sm:text-sm bg-[var(--custom-yellow)] text-black px-3 sm:px-4 py-1.5 sm:py-2 rounded hover:bg-[#ebbc6c] disabled:opacity-50"
                         >
                             {saving ? "Saving..." : "Save Changes"}
                         </button>
                     </div>
                 </div>
 
-                <div className="flex-1 flex flex-col pt-[100px] pb-6 px-[50px] lg:px-[100px] gap-4 h-[calc(100vh)] justify-end overflow-hidden">
-                    <div className="flex-1 min-h-0 bg-[#202020]/90 backdrop-blur-md rounded-lg p-4 overflow-hidden flex flex-col relative">
-                        <h2 className="text-xl text-[var(--custom-yellow)] font-bold mb-2 shrink-0">Collection</h2>
+                <div className="flex-1 flex flex-col pt-20 sm:pt-24 lg:pt-[100px] pb-4 sm:pb-6 px-4 sm:px-6 lg:px-[50px] xl:px-[100px] gap-3 sm:gap-4 h-[calc(100vh)] justify-end overflow-hidden">
+                    <div className="flex-1 min-h-0 bg-[#202020]/90 backdrop-blur-md rounded-lg p-3 sm:p-4 overflow-hidden flex flex-col relative">
+                        <h2 className="text-base sm:text-lg lg:text-xl text-[var(--custom-yellow)] font-bold mb-2 shrink-0">Collection</h2>
 
-                        <div className="overflow-y-auto flex flex-wrap justify-center gap-2 content-start p-2 h-full">
+                        <div className="overflow-y-auto flex flex-wrap justify-center gap-1.5 sm:gap-2 content-start p-1 sm:p-2 h-full">
                             {ALL_CARD_KEYS.map((cardKey) => {
                                 const card = CARD_DATA[cardKey];
                                 const isUnlocked = unlockedCards.includes(cardKey);
                                 const isEquipped = equippedCards.includes(cardKey);
 
                                 return (
-                                    <div key={cardKey} className="w-28 aspect-[2/3] flex items-center justify-center p-2">
+                                    <div key={cardKey} className="w-16 sm:w-20 md:w-24 lg:w-28 aspect-[2/3] flex items-center justify-center p-1 sm:p-2">
                                         <div
                                             onClick={() => isUnlocked && handleCardSelect(cardKey)}
                                             onMouseEnter={() => setHoveredCard(cardKey)}
@@ -237,13 +237,13 @@ export default function EquipmentPage() {
                         </div>
                     </div>
 
-                    <div className="h-[280px] shrink-0 bg-[#202020]/90 backdrop-blur-md rounded-lg p-4 flex flex-col">
-                        <div className="flex justify-between items-center mb-2 shrink-0">
-                            <h2 className="text-xl text-[var(--custom-yellow)] font-bold">Your Deck</h2>
-                            <div className="text-sm text-gray-400">Select a slot to change card</div>
+                    <div className="h-[200px] sm:h-[240px] lg:h-[280px] shrink-0 bg-[#202020]/90 backdrop-blur-md rounded-lg p-3 sm:p-4 flex flex-col">
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 shrink-0 gap-1 sm:gap-0">
+                            <h2 className="text-base sm:text-lg lg:text-xl text-[var(--custom-yellow)] font-bold">Your Deck</h2>
+                            <div className="text-xs sm:text-sm text-gray-400">Select a slot to change card</div>
                         </div>
 
-                        <div className="flex-1 flex justify-center items-center gap-4 h-full">
+                        <div className="flex-1 flex justify-center items-center gap-2 sm:gap-3 lg:gap-4 h-full overflow-x-auto">
                             {equippedCards.map((cardKey, index) => {
                                 const card = CARD_DATA[cardKey];
                                 return (
@@ -253,7 +253,7 @@ export default function EquipmentPage() {
                                         onMouseEnter={() => cardKey && setHoveredCard(cardKey)}
                                         onMouseLeave={() => setHoveredCard(null)}
                                         className={`
-                                h-full aspect-[2/3] rounded-lg border-2 cursor-pointer transition-all relative overflow-hidden shrink-0
+                                h-full min-w-[60px] sm:min-w-[80px] md:min-w-[100px] lg:min-w-[120px] aspect-[2/3] rounded-lg border-2 cursor-pointer transition-all relative overflow-hidden shrink-0
                                 ${selectedSlot === index ? 'border-[var(--custom-yellow)] shadow-[0_0_20px_rgba(255,208,128,0.4)] -translate-y-2' : 'border-gray-600 hover:border-gray-400 hover:-translate-y-1'}
                             `}
                                     >
@@ -269,7 +269,7 @@ export default function EquipmentPage() {
                                                 Slot {index + 1}
                                             </div>
                                         )}
-                                        <div className="absolute top-1 left-1 bg-black/70 px-1.5 rounded text-xs text-white">
+                                        <div className="absolute top-1 left-1 bg-black/70 px-1 sm:px-1.5 rounded text-[10px] sm:text-xs text-white">
                                             {index + 1}
                                         </div>
                                     </div>

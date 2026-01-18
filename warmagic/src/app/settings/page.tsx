@@ -40,23 +40,23 @@ export default function LogingPage() {
 
       <a
         href="../landingpage"
-        className="absolute top-[65px] left-[100px] text-white text-[27px] font-bold z-10"
+        className="absolute top-4 sm:top-[65px] left-4 sm:left-[100px] text-white text-lg sm:text-2xl lg:text-[27px] font-bold z-10"
       >
         WarMagic
       </a>
 
-      <div className="absolute inset-0 flex items-center justify-center flex-col gap-5">
-        <div className="w-[850px] h-[150px] bg-[#202020] backdrop-blur-md rounded-lg py-5 text-white">
+      <div className="absolute inset-0 flex items-center justify-center flex-col gap-4 sm:gap-5 p-4">
+        <div className="w-full max-w-[850px] min-h-[100px] sm:h-[150px] bg-[#202020] backdrop-blur-md rounded-lg py-4 sm:py-5 text-white">
           <h1
-            className="text-[90px] font-bold text-center "
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-[90px] font-bold text-center"
             style={{ color: "var(--custom-yellow)" }}
           >
             Settings
           </h1>
         </div>
-        <div className="w-[850px] h-[350px] bg-[#202020] backdrop-blur-md rounded-lg py-5 text-white">
+        <div className="w-full max-w-[850px] min-h-[400px] sm:h-[350px] bg-[#202020] backdrop-blur-md rounded-lg py-4 sm:py-5 text-white">
           <h1
-            className="text-[80px] font-bold text-center gap-5"
+            className="text-3xl sm:text-5xl md:text-6xl lg:text-[80px] font-bold text-center gap-5"
             style={{ color: "var(--custom-yellow)" }}
           >
             Profile
@@ -98,28 +98,29 @@ function Username() {
     setSuccess("Name has been updated.");
   };
   return (
-    <div className="text-[50px] font-bold text-left gap-5 px-5 py-12">
+    <div className="text-xl sm:text-3xl lg:text-[50px] font-bold text-left gap-3 sm:gap-5 px-3 sm:px-5 py-6 sm:py-12">
       <div className="py-2">
-        <h1>Name</h1>
-        <div className="flex flex-row gap-5">
+        <h1 className="text-lg sm:text-2xl lg:text-3xl mb-2">Name</h1>
+        <div className="flex flex-row gap-2 sm:gap-5 items-center">
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
             type="text"
-            className="w-[70%] h-[10%] px-4 py-3 bg-[#272727] rounded outline-none focus:ring-2 focus:ring-[var(--custom-yellow)]"
+            className="flex-1 sm:w-[70%] h-10 sm:h-12 px-3 sm:px-4 py-2 sm:py-3 bg-[#272727] rounded outline-none focus:ring-2 focus:ring-[var(--custom-yellow)] text-sm sm:text-base"
           />
-          <div className="w-[70] h-[70] px-2 py-2 bg-[#272727] rounded outline-none border-3 border-[var(--custom-yellow)] animate-bounce">
+          <div className="w-12 h-12 sm:w-[70px] sm:h-[70px] px-2 py-2 bg-[#272727] rounded outline-none border-3 border-[var(--custom-yellow)] animate-bounce cursor-pointer shrink-0">
             <Image
               src=".././assets/icons/settings-icons/edit-3-svgrepo-com.svg"
               alt="Edit icon"
-              width={60}
-              height={60}
+              width={40}
+              height={40}
+              className="sm:w-[60px] sm:h-[60px]"
               style={{ filter: "invert(1)" }}
               onClick={handleSubmitName}
             />
           </div>
           {success && (
-            <p className="mt-6 text-center text-sm text-green-400">{success}</p>
+            <p className="absolute mt-12 sm:mt-16 text-center text-xs sm:text-sm text-green-400">{success}</p>
           )}
         </div>
       </div>
@@ -155,38 +156,41 @@ function Email() {
     }
   };
   return (
-    <div className="text-[50px] font-bold text-left gap-5 px-5 py-12">
-      <div className="gap-1">
-        <h1>New Email</h1>
-        <div className="flex flex-row gap-5">
-          <input
-            value={newEmail}
-            onChange={(e) => setNewEmail(e.target.value)}
-            type="email"
-            className="w-[70%] h-[10%] px-4 py-3 bg-[#272727] rounded outline-none focus:ring-2 focus:ring-[var(--custom-yellow)]"
-          />
+    <div className="text-xl sm:text-3xl lg:text-[50px] font-bold text-left gap-3 sm:gap-5 px-3 sm:px-5 py-6 sm:py-12">
+      <div className="gap-2 sm:gap-4 space-y-4">
+        <div>
+          <h1 className="text-lg sm:text-2xl lg:text-3xl mb-2">New Email</h1>
+          <div className="flex flex-row gap-2 sm:gap-5">
+            <input
+              value={newEmail}
+              onChange={(e) => setNewEmail(e.target.value)}
+              type="email"
+              className="flex-1 sm:w-[70%] h-10 sm:h-12 px-3 sm:px-4 py-2 sm:py-3 bg-[#272727] rounded outline-none focus:ring-2 focus:ring-[var(--custom-yellow)] text-sm sm:text-base"
+            />
+          </div>
         </div>
-        <div className="gap-1">
-          <h1>Password</h1>
-          <div className="flex flex-row gap-5">
+        <div>
+          <h1 className="text-lg sm:text-2xl lg:text-3xl mb-2">Password</h1>
+          <div className="flex flex-row gap-2 sm:gap-5 items-center">
             <input
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               type="password"
-              className="w-[70%] h-[10%] px-4 py-3 bg-[#272727] rounded outline-none focus:ring-2 focus:ring-[var(--custom-yellow)]"
+              className="flex-1 sm:w-[70%] h-10 sm:h-12 px-3 sm:px-4 py-2 sm:py-3 bg-[#272727] rounded outline-none focus:ring-2 focus:ring-[var(--custom-yellow)] text-sm sm:text-base"
             />
 
-            <div className="w-[70] h-[70] px-2 py-2 bg-[#272727] rounded outline-none border-3 border-[var(--custom-yellow)] animate-bounce">
+            <div className="w-12 h-12 sm:w-[70px] sm:h-[70px] px-2 py-2 bg-[#272727] rounded outline-none border-3 border-[var(--custom-yellow)] animate-bounce cursor-pointer shrink-0">
               <Image
                 src=".././assets/icons/settings-icons/edit-3-svgrepo-com.svg"
                 alt="Edit icon"
-                width={60}
-                height={60}
+                width={40}
+                height={40}
+                className="sm:w-[60px] sm:h-[60px]"
                 style={{ filter: "invert(1)" }}
                 onClick={handleChangeEmail}
               />
             </div>
-            {message && <p>{message}</p>}
+            {message && <p className="text-xs sm:text-sm text-red-400 mt-2">{message}</p>}
           </div>
         </div>
       </div>
@@ -222,36 +226,41 @@ function Password() {
     }
   };
   return (
-    <div className="text-[50px] font-bold text-left gap-5 px-5 py-12">
-      <div className="py-2">
-        <h1>Old password</h1>
-        <div className="flex flex-row gap-5">
-          <input
-            type="password"
-            className="w-[70%] h-[10%] px-4 py-3 bg-[#272727] rounded outline-none focus:ring-2 focus:ring-[var(--custom-yellow)]"
-            value={oldPassword}
-            onChange={(e) => setOldPassword(e.target.value)}
-          />
-        </div>
-        <h1>New password</h1>
-        <div className="flex flex-row gap-5">
-          <input
-            type="password"
-            className="w-[70%] h-[10%] px-4 py-3 bg-[#272727] rounded outline-none focus:ring-2 focus:ring-[var(--custom-yellow)]"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
-          <div className="w-[70] h-[70] px-2 py-2 bg-[#272727] rounded outline-none border-3 border-[var(--custom-yellow)] animate-bounce">
-            <Image
-              src=".././assets/icons/settings-icons/edit-3-svgrepo-com.svg"
-              alt="Edit icon"
-              width={60}
-              height={60}
-              style={{ filter: "invert(1)" }}
-              onClick={handleChangePassword}
+    <div className="text-xl sm:text-3xl lg:text-[50px] font-bold text-left gap-3 sm:gap-5 px-3 sm:px-5 py-6 sm:py-12">
+      <div className="py-2 space-y-4">
+        <div>
+          <h1 className="text-lg sm:text-2xl lg:text-3xl mb-2">Old password</h1>
+          <div className="flex flex-row gap-2 sm:gap-5">
+            <input
+              type="password"
+              className="flex-1 sm:w-[70%] h-10 sm:h-12 px-3 sm:px-4 py-2 sm:py-3 bg-[#272727] rounded outline-none focus:ring-2 focus:ring-[var(--custom-yellow)] text-sm sm:text-base"
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
             />
           </div>
-          {message && <p>{message}</p>}
+        </div>
+        <div>
+          <h1 className="text-lg sm:text-2xl lg:text-3xl mb-2">New password</h1>
+          <div className="flex flex-row gap-2 sm:gap-5 items-center">
+            <input
+              type="password"
+              className="flex-1 sm:w-[70%] h-10 sm:h-12 px-3 sm:px-4 py-2 sm:py-3 bg-[#272727] rounded outline-none focus:ring-2 focus:ring-[var(--custom-yellow)] text-sm sm:text-base"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
+            <div className="w-12 h-12 sm:w-[70px] sm:h-[70px] px-2 py-2 bg-[#272727] rounded outline-none border-3 border-[var(--custom-yellow)] animate-bounce cursor-pointer shrink-0">
+              <Image
+                src=".././assets/icons/settings-icons/edit-3-svgrepo-com.svg"
+                alt="Edit icon"
+                width={40}
+                height={40}
+                className="sm:w-[60px] sm:h-[60px]"
+                style={{ filter: "invert(1)" }}
+                onClick={handleChangePassword}
+              />
+            </div>
+            {message && <p className="text-xs sm:text-sm text-red-400 mt-2">{message}</p>}
+          </div>
         </div>
       </div>
     </div>
