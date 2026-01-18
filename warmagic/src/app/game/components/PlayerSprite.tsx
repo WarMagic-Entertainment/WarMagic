@@ -13,7 +13,7 @@ export default function PlayerSprite({
 }: PlayerSpriteProps) {
   // mapowanie zamiast ifów
   const sources: Record<PlayerState, string> = {
-    idle: "/assets/player/player1/player_ready.gif",
+    idle: "/assets/player/player1/gelorbi_ready.gif",
     attack: "/assets/player/player1/gelorbi_attack.webm",
     hit: "/assets/player/player1/gelorbi_hit.webm",
     deadAnim: "/assets/player/player1/gelorbi_dead.webm",
