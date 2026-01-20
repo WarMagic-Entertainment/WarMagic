@@ -46,6 +46,22 @@ export const useCardLogic = (round: number, layer: number, cardInfos: Record<str
         return true;
     };
 
+    const parseCooldown = (cdString: string) => {
+        if (!cdString || cdString.length < 2) return cdString;
+        const typeChar = cdString.charAt(0).toLowerCase();
+        const value = cdString.substring(1);
+
+        let typeLabel = "";
+        switch (typeChar) {
+            case 'r': typeLabel = "Rounds"; break;
+            case 'l': typeLabel = "Levels"; break; //using level instead of layer to make it more intuitive
+            case 'u': typeLabel = "Uses"; break;
+            default: typeLabel = "";
+        }
+
+        return `${value} ${typeLabel}`;
+    };
+
     const recordCardUsage = (cardKey: string) => {
         const cd = getCardCooldownState(cardKey);
         setCardStates(prev => {
@@ -68,20 +84,31 @@ export const useCardLogic = (round: number, layer: number, cardInfos: Record<str
         });
     };
 
-    const parseCooldown = (cdString: string) => {
-        if (!cdString || cdString.length < 2) return cdString;
-        const typeChar = cdString.charAt(0).toLowerCase();
-        const value = cdString.substring(1);
+    const getRemainingCooldown = (cardKey: string): string | null => {
+        const cd = getCardCooldownState(cardKey);
+        const state = cardStates[cardKey];
+        if (!cd || !state) return null;
 
-        let typeLabel = "";
-        switch (typeChar) {
-            case 'r': typeLabel = "Rounds"; break;
-            case 'l': typeLabel = "Levels"; break;
-            case 'u': typeLabel = "Uses"; break;
-            default: typeLabel = "";
+        if (cd.type === 'r') {
+            const passed = round - state.lastUsedRound;
+            if (passed >= cd.val) return null;
+            const remaining = cd.val - passed;
+            return `${remaining} Round${remaining > 1 ? 's' : ''}`;
         }
 
-        return `${value} ${typeLabel}`;
+        if (cd.type === 'l') {
+            const passed = layer - state.lastUsedLayer;
+            if (passed >= cd.val) return null;
+            const remaining = cd.val - passed;
+            return `${remaining} Layer${remaining > 1 ? 's' : ''}`;
+        }
+
+        if (cd.type === 'u') {
+            if (state.usesLeft > 0) return null;
+            return "Depleted";
+        }
+
+        return null;
     };
 
     return {
@@ -89,6 +116,7 @@ export const useCardLogic = (round: number, layer: number, cardInfos: Record<str
         setCardStates,
         isCardReady,
         recordCardUsage,
-        parseCooldown
+        parseCooldown,
+        getRemainingCooldown
     };
 };

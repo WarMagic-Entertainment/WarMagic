@@ -21,7 +21,7 @@ export default function GamePage() {
   const { loading, equippedCards, cardInfos, enemies, playerName } = useGameData();
   const [layer, setLayer] = useState(1);
   const [round, setRound] = useState(1);
-  const { isCardReady, recordCardUsage, parseCooldown, setCardStates } = useCardLogic(round, layer, cardInfos);
+  const { isCardReady, recordCardUsage, parseCooldown, setCardStates, getRemainingCooldown } = useCardLogic(round, layer, cardInfos);
   const { saveProgress } = useGamePersistence(layer);
 
   const [turn, setTurn] = useState<'player' | 'enemy'>('player');
@@ -315,7 +315,7 @@ export default function GamePage() {
                     />
                     {!isReady && (
                       <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center text-[8px] sm:text-[10px] text-white font-bold text-center p-1">
-                        <span>COOLDOWN</span>
+                        <span>{getRemainingCooldown(cardKey) || "COOLDOWN"}</span>
                       </div>
                     )}
                   </div>
