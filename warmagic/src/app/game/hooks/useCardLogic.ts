@@ -111,12 +111,39 @@ export const useCardLogic = (round: number, layer: number, cardInfos: Record<str
         return null;
     };
 
+    const reduceCooldown = (cardKey: string, amount: number = 1) => {
+        setCardStates(prev => {
+            const state = prev[cardKey];
+            if (!state) return prev; //Not on cooldown or used yet
+
+            const cd = getCardCooldownState(cardKey);
+            if (!cd) return prev;
+
+            let newState = { ...state };
+
+            if (cd.type === 'r') {
+                newState.lastUsedRound -= amount;
+            } else if (cd.type === 'l') {
+                newState.lastUsedLayer -= amount;
+            } else if (cd.type === 'u') {
+                newState.usesLeft += amount;
+                if (newState.usesLeft > cd.val) newState.usesLeft = cd.val;
+            }
+
+            return {
+                ...prev,
+                [cardKey]: newState
+            };
+        });
+    };
+
     return {
         cardStates,
         setCardStates,
         isCardReady,
         recordCardUsage,
         parseCooldown,
-        getRemainingCooldown
+        getRemainingCooldown,
+        reduceCooldown
     };
 };
