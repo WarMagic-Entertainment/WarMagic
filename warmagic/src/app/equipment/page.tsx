@@ -26,6 +26,8 @@ export default function EquipmentPage() {
     const [cardInfos, setCardInfos] = useState<Record<string, CardInfo>>({});
     const [hoveredCard, setHoveredCard] = useState<string | null>(null);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+    const [toastMessage, setToastMessage] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState(false);
 
     const router = useRouter();
 
@@ -82,7 +84,9 @@ export default function EquipmentPage() {
             return;
         }
         if (equippedCards.includes(cardKey) && equippedCards[selectedSlot] !== cardKey) {
-            alert("This card is already equipped!");
+            setToastMessage("This card is already equipped!");
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 3000);
             return;
         }
 
@@ -99,10 +103,14 @@ export default function EquipmentPage() {
             await updateDoc(docRef, {
                 equippedCards: equippedCards
             });
-            alert("Equipment saved!");
+            setToastMessage("Changes have been saved!");
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 3000);
         } catch (error) {
             console.error("Error saving equipment:", error);
-            alert("Failed to save.");
+            setToastMessage("Failed to save.");
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 3000);
         } finally {
             setSaving(false);
         }
@@ -162,6 +170,18 @@ export default function EquipmentPage() {
                         </div>
                     </div>
                 )}
+
+                {/* Toast Notification */}
+                <div
+                    className={`fixed bottom-8 right-8 z-[100] bg-[#202020]/90 border border-[var(--custom-yellow)] rounded-lg p-4 text-white shadow-[0_0_20px_rgba(255,208,128,0.4)] backdrop-blur-md transition-all duration-500 ${showToast ? 'translate-x-0 opacity-100' : 'translate-x-[150%] opacity-0'
+                        }`}
+                    style={{ minWidth: '250px' }}
+                >
+                    <div className="flex items-center gap-3">
+                        <div className="text-[var(--custom-yellow)] text-2xl">✓</div>
+                        <div className="text-sm font-medium">{toastMessage}</div>
+                    </div>
+                </div>
                 <div
                     className="absolute inset-0 bg-cover bg-center bg-no-repeat brightness-75 -z-10"
                     style={{
@@ -185,93 +205,105 @@ export default function EquipmentPage() {
                 </div>
 
                 <div className="flex-1 flex flex-col pt-20 sm:pt-24 lg:pt-[100px] pb-4 sm:pb-6 px-4 sm:px-6 lg:px-[50px] xl:px-[100px] gap-3 sm:gap-4 h-[calc(100vh)] justify-end overflow-hidden">
-                    <div className="flex-1 min-h-0 bg-[#202020]/90 backdrop-blur-md rounded-lg p-3 sm:p-4 overflow-hidden flex flex-col relative">
-                        <h2 className="text-base sm:text-lg lg:text-xl text-[var(--custom-yellow)] font-bold mb-2 shrink-0">Collection</h2>
+                    <div className="h-[360px] shrink-0 bg-[#202020]/90 backdrop-blur-md rounded-lg p-4 flex flex-col">
+                        <div className="flex flex-col items-center mb-2 shrink-0 gap-1">
+                            <h2 className="text-xl text-[var(--custom-yellow)] font-bold text-center">Your Deck</h2>
+                            <div className="text-sm text-gray-400 text-center">Select a slot to change card</div>
+                        </div>
 
-                        <div className="overflow-y-auto flex flex-wrap justify-center gap-1.5 sm:gap-2 content-start p-1 sm:p-2 h-full">
+                        <div className="flex-1 flex justify-center items-center h-full">
+                            <div className="flex items-center" style={{ gap: '50px' }}>
+                                {equippedCards.map((cardKey, index) => {
+                                    const card = CARD_DATA[cardKey];
+                                    return (
+                                        <div
+                                            key={`slot-${index}`}
+                                            onClick={() => setSelectedSlot(index)}
+                                            onMouseEnter={() => cardKey && setHoveredCard(cardKey)}
+                                            onMouseLeave={() => setHoveredCard(null)}
+                                            className="h-[200px] w-auto aspect-[2/3] shrink-0 flex items-center justify-center "
+                                        >
+                                            {card ? (
+                                                <div className={`
+                                                relative rounded transition-all
+                                                ${selectedSlot === index ? 'border-2 border-[var(--custom-yellow)] shadow-[0_0_20px_rgba(255,208,128,0.4)] -translate-y-2' : 'hover:-translate-y-1'}
+                                            `} style={{ height: '100%', display: 'inline-block' }}>
+                                                    <Image
+                                                        src={`/assets/cards/${card.file}`}
+                                                        alt={card.name}
+                                                        width={200}
+                                                        height={300}
+                                                        className="h-full w-auto object-contain rounded"
+                                                        style={{ display: 'block' }}
+                                                    />
+                                                    <div className="absolute top-1 left-1 bg-black/70 px-1 sm:px-1.5 rounded text-[10px] sm:text-xs text-white z-10">
+                                                        {index + 1}
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div className={`
+                                                h-full w-auto aspect-[2/3] rounded transition-all relative flex items-center justify-center text-gray-500 bg-gray-900/50 border-2 border-gray-600
+                                                ${selectedSlot === index ? 'border-[var(--custom-yellow)] shadow-[0_0_20px_rgba(255,208,128,0.4)] -translate-y-2' : 'hover:-translate-y-1'}
+                                            `}>
+                                                    Slot {index + 1}
+                                                    <div className="absolute top-1 left-1 bg-black/70 px-1 sm:px-1.5 rounded text-[10px] sm:text-xs text-white">
+                                                        {index + 1}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex-1 min-h-0 bg-[#202020]/90 backdrop-blur-md rounded-lg p-4 overflow-hidden flex flex-col relative">
+                        <h2 className="text-xl text-[var(--custom-yellow)] font-bold mb-2 shrink-0 text-center">Collection</h2>
+
+                        <div className="overflow-y-auto flex flex-wrap justify-center content-start h-full" style={{ gap: '50px' }}>
                             {ALL_CARD_KEYS.map((cardKey) => {
                                 const card = CARD_DATA[cardKey];
                                 const isUnlocked = unlockedCards.includes(cardKey);
                                 const isEquipped = equippedCards.includes(cardKey);
 
                                 return (
-                                    <div key={cardKey} className="w-16 sm:w-20 md:w-24 lg:w-28 aspect-[2/3] flex items-center justify-center p-1 sm:p-2">
-                                        <div
-                                            onClick={() => isUnlocked && handleCardSelect(cardKey)}
-                                            onMouseEnter={() => setHoveredCard(cardKey)}
-                                            onMouseLeave={() => setHoveredCard(null)}
-                                            className={`
-                                    w-full h-full rounded border relative overflow-hidden transition-all duration-200 group
+                                    <div key={cardKey} className="w-[140px] aspect-[2/3] shrink-0 flex items-center justify-center mt-[40px] mb-[11px]">
+                                        {card ? (
+                                            <div
+                                                onClick={() => isUnlocked && handleCardSelect(cardKey)}
+                                                onMouseEnter={() => setHoveredCard(cardKey)}
+                                                onMouseLeave={() => setHoveredCard(null)}
+                                                className={`
+                                    relative rounded border transition-all duration-200
                                     ${isUnlocked ? 'cursor-pointer hover:border-[var(--custom-yellow)] hover:scale-110 hover:z-50 hover:shadow-xl' : 'cursor-not-allowed opacity-50 grayscale'}
                                     ${isEquipped ? 'border-[var(--custom-yellow)]' : 'border-gray-600'}
-                                `}
-                                        >
-                                            {card ? (
+                                `} style={{ height: '100%', display: 'inline-block' }}>
                                                 <Image
                                                     src={`/assets/cards/${card.file}`}
                                                     alt={card.name}
-                                                    fill
-                                                    className="object-cover"
+                                                    width={200}
+                                                    height={300}
+                                                    className="h-full w-auto object-contain rounded"
+                                                    style={{ display: 'block' }}
                                                 />
-                                            ) : (
-                                                <div className="w-full h-full flex items-center justify-center text-[10px] text-white break-words text-center">
-                                                    {cardKey}
-                                                </div>
-                                            )}
+                                                {!isUnlocked && (
+                                                    <div className="absolute inset-0 bg-black/60 flex items-center justify-center rounded">
+                                                        <span className="text-gray-400 text-xs font-bold">Locked</span>
+                                                    </div>
+                                                )}
 
-                                            {!isUnlocked && (
-                                                <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-                                                    <span className="text-gray-400 text-xs font-bold">Locked</span>
-                                                </div>
-                                            )}
-
-                                            {isEquipped && isUnlocked && (
-                                                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                                                    <span className="text-[var(--custom-yellow)] font-bold border border-[var(--custom-yellow)] px-1 py-0.5 rounded bg-black/60 text-[10px] shadow-lg backdrop-blur-sm">Equipped</span>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-
-                    <div className="h-[200px] sm:h-[240px] lg:h-[280px] shrink-0 bg-[#202020]/90 backdrop-blur-md rounded-lg p-3 sm:p-4 flex flex-col">
-                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 shrink-0 gap-1 sm:gap-0">
-                            <h2 className="text-base sm:text-lg lg:text-xl text-[var(--custom-yellow)] font-bold">Your Deck</h2>
-                            <div className="text-xs sm:text-sm text-gray-400">Select a slot to change card</div>
-                        </div>
-
-                        <div className="flex-1 flex justify-center items-center gap-2 sm:gap-3 lg:gap-4 h-full overflow-x-auto">
-                            {equippedCards.map((cardKey, index) => {
-                                const card = CARD_DATA[cardKey];
-                                return (
-                                    <div
-                                        key={`slot-${index}`}
-                                        onClick={() => setSelectedSlot(index)}
-                                        onMouseEnter={() => cardKey && setHoveredCard(cardKey)}
-                                        onMouseLeave={() => setHoveredCard(null)}
-                                        className={`
-                                h-full min-w-[60px] sm:min-w-[80px] md:min-w-[100px] lg:min-w-[120px] aspect-[2/3] rounded-lg border-2 cursor-pointer transition-all relative overflow-hidden shrink-0
-                                ${selectedSlot === index ? 'border-[var(--custom-yellow)] shadow-[0_0_20px_rgba(255,208,128,0.4)] -translate-y-2' : 'border-gray-600 hover:border-gray-400 hover:-translate-y-1'}
-                            `}
-                                    >
-                                        {card ? (
-                                            <Image
-                                                src={`/assets/cards/${card.file}`}
-                                                alt={card.name}
-                                                fill
-                                                className="object-cover"
-                                            />
+                                                {isEquipped && isUnlocked && (
+                                                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded">
+                                                        <span className="text-[var(--custom-yellow)] font-bold border border-[var(--custom-yellow)] px-1 py-0.5 rounded bg-black/60 text-[10px] shadow-lg backdrop-blur-sm">Equipped</span>
+                                                    </div>
+                                                )}
+                                            </div>
                                         ) : (
-                                            <div className="w-full h-full flex items-center justify-center text-gray-500 bg-gray-900/50">
-                                                Slot {index + 1}
+                                            <div className="w-full h-full rounded border border-gray-600 flex items-center justify-center text-[10px] text-white break-words text-center">
+                                                {cardKey}
                                             </div>
                                         )}
-                                        <div className="absolute top-1 left-1 bg-black/70 px-1 sm:px-1.5 rounded text-[10px] sm:text-xs text-white">
-                                            {index + 1}
-                                        </div>
                                     </div>
                                 );
                             })}
