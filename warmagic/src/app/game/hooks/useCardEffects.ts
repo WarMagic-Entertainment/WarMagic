@@ -11,6 +11,7 @@ interface UseCardEffectsProps {
     setTurn: (turn: 'player' | 'enemy') => void;
     setEnemyState: (state: "idle" | "attack" | "hit" | "dead") => void;
     setGameStatus: (status: 'playing' | 'won' | 'lost') => void;
+    fleeEncounter: () => void;
 }
 
 export const useCardEffects = ({
@@ -23,7 +24,8 @@ export const useCardEffects = ({
     setSelectionMode,
     setTurn,
     setEnemyState,
-    setGameStatus
+    setGameStatus,
+    fleeEncounter
 }: UseCardEffectsProps) => {
 
     const handleCardEffect = (cardKey: string): { dmg: number, description: string, preventTurnChange?: boolean } => {
@@ -64,6 +66,10 @@ export const useCardEffects = ({
 
             case 'lovers':
                 return { dmg: 2, description: "Basic Attack" };
+
+            case 'chariot':
+                fleeEncounter();
+                return { dmg: 0, description: "Fleeing...", preventTurnChange: true };
 
             case 'moon':
                 setEnemyStatus({ type: 'moon_blindness', duration: 1 });

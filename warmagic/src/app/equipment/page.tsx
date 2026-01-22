@@ -27,6 +27,8 @@ export default function EquipmentPage() {
     const [hoveredCard, setHoveredCard] = useState<string | null>(null);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
+    const [userXp, setUserXp] = useState(0);
+
     const router = useRouter();
 
     useEffect(() => {
@@ -39,16 +41,13 @@ export default function EquipmentPage() {
                     if (docSnap.exists()) {
                         const data = docSnap.data();
                         setUnlockedCards(data.unlockedCards || []);
-                        const equipped = data.equippedCards || [];
-                        const paddedEquipped = [...equipped];
-                        while (paddedEquipped.length < 6) paddedEquipped.push("");
-                        setEquippedCards(paddedEquipped.slice(0, 6));
+                        setEquippedCards(data.equippedCards || Array(6).fill(""));
+                        setUserXp(data.xp || 0);
                     }
                 } catch (error) {
                     console.error("Error fetching user data:", error);
                 }
             }
-            // AuthGuard handles redirect
             setLoading(false);
         });
         const fetchCardData = async () => {
@@ -78,7 +77,11 @@ export default function EquipmentPage() {
 
     const handleCardSelect = (cardKey: string) => {
         if (selectedSlot === null) return;
-        if (!unlockedCards.includes(cardKey)) {
+        const info = cardInfos[cardKey];
+        const xpNeeded = info?.xp_needed || 0;
+        const isUnlocked = unlockedCards.includes(cardKey) || userXp >= xpNeeded;
+
+        if (!isUnlocked) {
             return;
         }
         if (equippedCards.includes(cardKey) && equippedCards[selectedSlot] !== cardKey) {
@@ -155,7 +158,7 @@ export default function EquipmentPage() {
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-gray-400">Unlock XP:</span>
-                                <span className={`font-bold ${unlockedCards.includes(hoveredCard) ? 'text-green-400' : 'text-red-400'}`}>
+                                <span className={`font-bold ${(unlockedCards.includes(hoveredCard) || userXp >= (cardInfos[hoveredCard]?.xp_needed || 0)) ? 'text-green-400' : 'text-red-400'}`}>
                                     {cardInfos[hoveredCard].xp_needed} XP
                                 </span>
                             </div>
@@ -191,7 +194,9 @@ export default function EquipmentPage() {
                         <div className="overflow-y-auto flex flex-wrap justify-center gap-1.5 sm:gap-2 content-start p-1 sm:p-2 h-full">
                             {ALL_CARD_KEYS.map((cardKey) => {
                                 const card = CARD_DATA[cardKey];
-                                const isUnlocked = unlockedCards.includes(cardKey);
+                                const info = cardInfos[cardKey];
+                                const xpNeeded = info?.xp_needed || 0;
+                                const isUnlocked = unlockedCards.includes(cardKey) || userXp >= xpNeeded;
                                 const isEquipped = equippedCards.includes(cardKey);
 
                                 return (
@@ -233,9 +238,10 @@ export default function EquipmentPage() {
                                         </div>
                                     </div>
                                 );
-                            })}
-                        </div>
-                    </div>
+                            })
+                            }
+                        </div >
+                    </div >
 
                     <div className="h-[200px] sm:h-[240px] lg:h-[280px] shrink-0 bg-[#202020]/90 backdrop-blur-md rounded-lg p-3 sm:p-4 flex flex-col">
                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 shrink-0 gap-1 sm:gap-0">
@@ -278,8 +284,8 @@ export default function EquipmentPage() {
                         </div>
                     </div>
 
-                </div>
-            </section>
-        </AuthGuard>
+                </div >
+            </section >
+        </AuthGuard >
     );
 }

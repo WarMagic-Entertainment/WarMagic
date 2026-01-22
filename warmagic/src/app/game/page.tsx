@@ -104,6 +104,17 @@ export default function GamePage() {
     });
   };
 
+  const fleeEncounter = () => {
+    setEnemyState("idle");
+    setGameStatus("playing");
+    setEnemyStatus(null);
+    setShowCards(false);
+    setLayer(l => l + 1);
+    spawnEnemy(enemies);
+    setShowWelcome(true);
+    setTimeout(() => setShowWelcome(false), 2000);
+  };
+
   const { handleCardEffect } = useCardEffects({
     enemy: currentEnemy,
     playerHp,
@@ -114,7 +125,8 @@ export default function GamePage() {
     setSelectionMode,
     setTurn,
     setEnemyState,
-    setGameStatus
+    setGameStatus,
+    fleeEncounter
   });
 
   useEffect(() => {
