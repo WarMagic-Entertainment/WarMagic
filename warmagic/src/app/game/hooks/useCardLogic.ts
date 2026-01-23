@@ -3,6 +3,7 @@ import { CardState } from "../types";
 
 export const useCardLogic = (round: number, layer: number, cardInfos: Record<string, any>) => {
     const [cardStates, setCardStates] = useState<Record<string, CardState>>({});
+    const [globalRoundOffset, setGlobalRoundOffset] = useState(0);
 
     const getCardCooldownState = (cardKey: string) => {
         if (!cardInfos[cardKey]) return null;
@@ -37,7 +38,8 @@ export const useCardLogic = (round: number, layer: number, cardInfos: Record<str
         }
         if (cd.type === 'r') {
             if (!state) return true;
-            return (round - state.lastUsedRound) >= cd.val;
+            const currentAbsRound = round + globalRoundOffset;
+            return (currentAbsRound - state.lastUsedRound) >= cd.val;
         }
         if (cd.type === 'l') {
             if (!state) return true;
@@ -76,7 +78,7 @@ export const useCardLogic = (round: number, layer: number, cardInfos: Record<str
             return {
                 ...prev,
                 [cardKey]: {
-                    lastUsedRound: round,
+                    lastUsedRound: round + globalRoundOffset,
                     lastUsedLayer: layer,
                     usesLeft: cd?.type === 'u' ? (current.usesLeft - 1) : current.usesLeft
                 }
@@ -90,7 +92,8 @@ export const useCardLogic = (round: number, layer: number, cardInfos: Record<str
         if (!cd || !state) return null;
 
         if (cd.type === 'r') {
-            const passed = round - state.lastUsedRound;
+            const currentAbsRound = round + globalRoundOffset;
+            const passed = currentAbsRound - state.lastUsedRound;
             if (passed >= cd.val) return null;
             const remaining = cd.val - passed;
             return `${remaining} Round${remaining > 1 ? 's' : ''}`;
@@ -111,12 +114,57 @@ export const useCardLogic = (round: number, layer: number, cardInfos: Record<str
         return null;
     };
 
+    const reduceCooldown = (cardKey: string, amount: number = 1) => {
+        setCardStates(prev => {
+            const state = prev[cardKey];
+            if (!state) return prev; //Not on cooldown or used yet
+
+            const cd = getCardCooldownState(cardKey);
+            if (!cd) return prev;
+
+            let newState = { ...state };
+
+            if (cd.type === 'r') {
+                newState.lastUsedRound -= amount;
+            } else if (cd.type === 'l') {
+                newState.lastUsedLayer -= amount;
+            } else if (cd.type === 'u') {
+                newState.usesLeft += amount;
+                if (newState.usesLeft > cd.val) newState.usesLeft = cd.val;
+            }
+
+            return {
+                ...prev,
+                [cardKey]: newState
+            };
+        });
+    };
+
+    const adjustCooldowns = (finalRound: number) => {
+        setCardStates(prev => {
+            const nextStates = { ...prev };
+            Object.keys(nextStates).forEach(key => {
+                const cd = getCardCooldownState(key);
+                if (cd?.type === 'r') {
+
+                    nextStates[key] = {
+                        ...nextStates[key],
+                        lastUsedRound: nextStates[key].lastUsedRound - finalRound
+                    };
+                }
+            });
+            return nextStates;
+        });
+    };
+
     return {
         cardStates,
         setCardStates,
         isCardReady,
         recordCardUsage,
         parseCooldown,
-        getRemainingCooldown
+        getRemainingCooldown,
+        reduceCooldown,
+        adjustCooldowns
     };
 };

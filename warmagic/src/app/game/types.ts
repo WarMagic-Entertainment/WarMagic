@@ -12,6 +12,11 @@ export interface CardState {
     usesLeft: number;
 }
 
+export interface EnemyStatus {
+    type: 'moon_blindness' | 'confusion';
+    duration: number; //Rounds
+}
+
 export interface CardInfo {
     name: string;
     description: string;

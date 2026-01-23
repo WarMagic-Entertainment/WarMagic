@@ -29,6 +29,8 @@ export default function EquipmentPage() {
     const [toastMessage, setToastMessage] = useState<string | null>(null);
     const [showToast, setShowToast] = useState(false);
 
+    const [userXp, setUserXp] = useState(0);
+
     const router = useRouter();
 
     useEffect(() => {
@@ -41,16 +43,13 @@ export default function EquipmentPage() {
                     if (docSnap.exists()) {
                         const data = docSnap.data();
                         setUnlockedCards(data.unlockedCards || []);
-                        const equipped = data.equippedCards || [];
-                        const paddedEquipped = [...equipped];
-                        while (paddedEquipped.length < 6) paddedEquipped.push("");
-                        setEquippedCards(paddedEquipped.slice(0, 6));
+                        setEquippedCards(data.equippedCards || Array(6).fill(""));
+                        setUserXp(data.xp || 0);
                     }
                 } catch (error) {
                     console.error("Error fetching user data:", error);
                 }
             }
-            // AuthGuard handles redirect
             setLoading(false);
         });
         const fetchCardData = async () => {
@@ -80,7 +79,11 @@ export default function EquipmentPage() {
 
     const handleCardSelect = (cardKey: string) => {
         if (selectedSlot === null) return;
-        if (!unlockedCards.includes(cardKey)) {
+        const info = cardInfos[cardKey];
+        const xpNeeded = info?.xp_needed || 0;
+        const isUnlocked = unlockedCards.includes(cardKey) || userXp >= xpNeeded;
+
+        if (!isUnlocked) {
             return;
         }
         if (equippedCards.includes(cardKey) && equippedCards[selectedSlot] !== cardKey) {
@@ -163,7 +166,7 @@ export default function EquipmentPage() {
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-gray-400">Unlock XP:</span>
-                                <span className={`font-bold ${unlockedCards.includes(hoveredCard) ? 'text-green-400' : 'text-red-400'}`}>
+                                <span className={`font-bold ${(unlockedCards.includes(hoveredCard) || userXp >= (cardInfos[hoveredCard]?.xp_needed || 0)) ? 'text-green-400' : 'text-red-400'}`}>
                                     {cardInfos[hoveredCard].xp_needed} XP
                                 </span>
                             </div>
@@ -264,7 +267,9 @@ export default function EquipmentPage() {
                         <div className="overflow-y-auto flex flex-wrap justify-center content-start h-full" style={{ gap: '50px' }}>
                             {ALL_CARD_KEYS.map((cardKey) => {
                                 const card = CARD_DATA[cardKey];
-                                const isUnlocked = unlockedCards.includes(cardKey);
+                                const info = cardInfos[cardKey];
+                                const xpNeeded = info?.xp_needed || 0;
+                                const isUnlocked = unlockedCards.includes(cardKey) || userXp >= xpNeeded;
                                 const isEquipped = equippedCards.includes(cardKey);
 
                                 return (
@@ -287,31 +292,26 @@ export default function EquipmentPage() {
                                                     className="h-full w-auto object-contain rounded"
                                                     style={{ display: 'block' }}
                                                 />
-                                                {!isUnlocked && (
-                                                    <div className="absolute inset-0 bg-black/60 flex items-center justify-center rounded">
-                                                        <span className="text-gray-400 text-xs font-bold">Locked</span>
-                                                    </div>
-                                                )}
+                                            {!isUnlocked && (
+                                                <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                                                    <span className="text-gray-400 text-xs font-bold">Locked</span>
+                                                </div>
+                                            )}
 
-                                                {isEquipped && isUnlocked && (
-                                                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded">
-                                                        <span className="text-[var(--custom-yellow)] font-bold border border-[var(--custom-yellow)] px-1 py-0.5 rounded bg-black/60 text-[10px] shadow-lg backdrop-blur-sm">Equipped</span>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        ) : (
-                                            <div className="w-full h-full rounded border border-gray-600 flex items-center justify-center text-[10px] text-white break-words text-center">
-                                                {cardKey}
-                                            </div>
-                                        )}
+                                            {isEquipped && isUnlocked && (
+                                                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                                                    <span className="text-[var(--custom-yellow)] font-bold border border-[var(--custom-yellow)] px-1 py-0.5 rounded bg-black/60 text-[10px] shadow-lg backdrop-blur-sm">Equipped</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    ) : null}
                                     </div>
                                 );
                             })}
                         </div>
                     </div>
-
-                </div>
-            </section>
-        </AuthGuard>
+                </div >
+            </section >
+        </AuthGuard >
     );
 }

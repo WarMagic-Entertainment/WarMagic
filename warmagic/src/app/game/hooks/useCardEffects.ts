@@ -1,0 +1,91 @@
+import { Enemy, EnemyStatus } from "../types";
+
+interface UseCardEffectsProps {
+    enemy: Enemy | null;
+    playerHp: number;
+    enemyHp: number;
+    changePlayerHp: (amount: number) => void;
+    setEnemyHp: (val: number) => void;
+    setEnemyStatus: (status: EnemyStatus | null) => void;
+    setSelectionMode: (mode: boolean) => void;
+    setTurn: (turn: 'player' | 'enemy') => void;
+    setEnemyState: (state: "idle" | "attack" | "hit" | "dead") => void;
+    setGameStatus: (status: 'playing' | 'won' | 'lost') => void;
+    fleeEncounter: () => void;
+}
+
+export const useCardEffects = ({
+    enemy,
+    playerHp,
+    enemyHp,
+    changePlayerHp,
+    setEnemyHp,
+    setEnemyStatus,
+    setSelectionMode,
+    setTurn,
+    setEnemyState,
+    setGameStatus,
+    fleeEncounter
+}: UseCardEffectsProps) => {
+
+    const handleCardEffect = (cardKey: string): { dmg: number, preventTurnChange?: boolean } => {
+        if (!enemy) return { dmg: 0 };
+
+        switch (cardKey) {
+            case 'fool':
+                changePlayerHp(6);
+                setEnemyHp(6);
+                return {
+                    dmg: 0,
+                    preventTurnChange: true
+                };
+
+            case 'magician':
+                setSelectionMode(true);
+                return { dmg: 1, preventTurnChange: true };
+
+            case 'high_priestess':
+                changePlayerHp(3);
+                return { dmg: 0 };
+
+            case 'empress':
+                changePlayerHp(1);
+                return { dmg: 1 };
+
+            case 'emperor':
+                if (playerHp === 1) {
+                    changePlayerHp(2);
+                    return { dmg: 0, preventTurnChange: true };
+                }
+                return { dmg: 0 };
+
+            case 'hierophant':
+                setEnemyStatus({ type: 'confusion', duration: 1 });
+                return { dmg: 0 };
+
+            case 'lovers':
+                return { dmg: 2 };
+
+            case 'chariot':
+                fleeEncounter();
+                return { dmg: 0, preventTurnChange: true };
+
+            case 'moon':
+                setEnemyStatus({ type: 'moon_blindness', duration: 1 });
+                return { dmg: 0 };
+
+            case 'wheel_of_fortune':
+                const oldPlayerHp = playerHp;
+                const oldEnemyHp = enemyHp;
+                changePlayerHp(oldEnemyHp - oldPlayerHp);
+                setEnemyHp(oldPlayerHp);
+
+                return { dmg: 0 };
+
+            default:
+                return { dmg: 2 };
+        }
+    };
+
+    return { handleCardEffect };
+};

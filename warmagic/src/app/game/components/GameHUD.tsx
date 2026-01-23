@@ -9,6 +9,7 @@ interface GameHUDProps {
     prevEnemyHp: number;
     enemyHpStage: "idle" | "anim" | "after";
     setEnemyHpStage: (s: "idle" | "anim" | "after") => void;
+    enemyStatus: { type: string; duration: number } | null;
 }
 
 export default function GameHUD({
@@ -19,7 +20,8 @@ export default function GameHUD({
     enemyHp,
     prevEnemyHp,
     enemyHpStage,
-    setEnemyHpStage
+    setEnemyHpStage,
+    enemyStatus
 }: GameHUDProps) {
     return (
         <div className="bg-black/50 p-2 sm:p-4 rounded-md w-full flex items-center justify-between m-0 z-10">
@@ -30,9 +32,16 @@ export default function GameHUD({
             </div>
 
             <div className="flex-1 flex flex-col items-center justify-center mx-4 sm:mx-8">
-                <h1 className="text-base sm:text-xl md:text-2xl lg:text-3xl font-bold text-center capitalize text-white mb-1 sm:mb-2">
-                    {currentEnemy ? currentEnemy.name : "..."}
-                </h1>
+                <div className="flex flex-col items-center">
+                    {enemyStatus && (
+                        <span className="text-xs sm:text-sm text-[var(--custom-yellow)] font-bold animate-pulse mb-1">
+                            {enemyStatus.type === 'moon_blindness' ? 'BLIND' : 'CONFUSED'}
+                        </span>
+                    )}
+                    <h1 className="text-base sm:text-xl md:text-2xl lg:text-3xl font-bold text-center capitalize text-white mb-1 sm:mb-2">
+                        {currentEnemy ? currentEnemy.name : "..."}
+                    </h1>
+                </div>
                 <div className="relative w-full max-w-[300px] sm:max-w-[400px] md:max-w-[500px] lg:max-w-[600px] xl:max-w-[700px] h-[40px] sm:h-[50px] md:h-[60px] lg:h-[70px] xl:h-[80px]">
                     <EnemyHpBar
                         currentEnemy={currentEnemy}
@@ -52,6 +61,6 @@ export default function GameHUD({
                     ({turn.toUpperCase()} TURN)
                 </span>
             </div>
-        </div>
+        </div >
     );
 }
