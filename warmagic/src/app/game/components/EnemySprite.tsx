@@ -29,9 +29,14 @@ export default function EnemySprite({
 
   return (
     <div
-      className={`absolute ${sizeClass} ${positionClass} transition-all duration-200 ${
-        enemyState === "hit" ? "brightness-150" : ""
-      }`}
+      className={`absolute ${sizeClass} ${positionClass} transition-all duration-200 ${enemyState === "hit" ? "brightness-150" : ""
+        } ${enemyState === "attack" ? "scale-110 brightness-110" : ""
+        }`}
+      style={{
+        width: enemyState === "attack" ? "40%" : undefined,
+        height: enemyState === "attack" ? "70%" : undefined,
+        marginBottom: enemyState === "attack" ? "15px" : undefined,
+      }}
     >
       {isVideo ? (
         <video
