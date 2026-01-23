@@ -22,9 +22,8 @@ export default function GamePage() {
   const { loading, equippedCards, cardInfos, enemies, playerName } = useGameData();
   const [layer, setLayer] = useState(1);
   const [round, setRound] = useState(1);
-  const { isCardReady, recordCardUsage, parseCooldown, setCardStates, getRemainingCooldown, reduceCooldown } = useCardLogic(round, layer, cardInfos);
+  const { isCardReady, recordCardUsage, parseCooldown, setCardStates, getRemainingCooldown, reduceCooldown, adjustCooldowns } = useCardLogic(round, layer, cardInfos);
   const { saveProgress } = useGamePersistence(layer);
-
   const [turn, setTurn] = useState<'player' | 'enemy'>('player');
   const [gameStatus, setGameStatus] = useState<'playing' | 'won' | 'lost'>('playing');
 
@@ -110,6 +109,7 @@ export default function GamePage() {
     setEnemyStatus(null);
     setShowCards(false);
     setLayer(l => l + 1);
+    adjustCooldowns(round);
     spawnEnemy(enemies);
     setShowWelcome(true);
     setTimeout(() => setShowWelcome(false), 2000);
@@ -304,6 +304,7 @@ export default function GamePage() {
 
     setTimeout(() => {
       setLayer(l => l + 1);
+      adjustCooldowns(round);
       spawnEnemy(enemies);
       setEnemyStatus(null);
 

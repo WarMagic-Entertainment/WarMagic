@@ -28,8 +28,8 @@ export const useCardEffects = ({
     fleeEncounter
 }: UseCardEffectsProps) => {
 
-    const handleCardEffect = (cardKey: string): { dmg: number, description: string, preventTurnChange?: boolean } => {
-        if (!enemy) return { dmg: 0, description: "No enemy" };
+    const handleCardEffect = (cardKey: string): { dmg: number, preventTurnChange?: boolean } => {
+        if (!enemy) return { dmg: 0 };
 
         switch (cardKey) {
             case 'fool':
@@ -37,43 +37,42 @@ export const useCardEffects = ({
                 setEnemyHp(6);
                 return {
                     dmg: 0,
-                    description: "Fool's Play! All Healed.",
                     preventTurnChange: true
                 };
 
             case 'magician':
                 setSelectionMode(true);
-                return { dmg: 1, description: "Magician's Trick! Select a card.", preventTurnChange: true };
+                return { dmg: 1, preventTurnChange: true };
 
             case 'high_priestess':
                 changePlayerHp(3);
-                return { dmg: 0, description: "Holy Light!" };
+                return { dmg: 0 };
 
             case 'empress':
                 changePlayerHp(1);
-                return { dmg: 1, description: "Nature's Balance." };
+                return { dmg: 1 };
 
             case 'emperor':
                 if (playerHp === 1) {
                     changePlayerHp(2);
-                    return { dmg: 0, description: "Imperial Rally!", preventTurnChange: true };
+                    return { dmg: 0, preventTurnChange: true };
                 }
-                return { dmg: 0, description: "Must be at 1 HP!" };
+                return { dmg: 0 };
 
             case 'hierophant':
                 setEnemyStatus({ type: 'confusion', duration: 1 });
-                return { dmg: 0, description: "Confusion cast!" };
+                return { dmg: 0 };
 
             case 'lovers':
-                return { dmg: 2, description: "Basic Attack" };
+                return { dmg: 2 };
 
             case 'chariot':
                 fleeEncounter();
-                return { dmg: 0, description: "Fleeing...", preventTurnChange: true };
+                return { dmg: 0, preventTurnChange: true };
 
             case 'moon':
                 setEnemyStatus({ type: 'moon_blindness', duration: 1 });
-                return { dmg: 0, description: "Moonlight Blindness!" };
+                return { dmg: 0 };
 
             case 'wheel_of_fortune':
                 const oldPlayerHp = playerHp;
@@ -81,10 +80,10 @@ export const useCardEffects = ({
                 changePlayerHp(oldEnemyHp - oldPlayerHp);
                 setEnemyHp(oldPlayerHp);
 
-                return { dmg: 0, description: "Wheel Spins! HP Swapped." };
+                return { dmg: 0 };
 
             default:
-                return { dmg: 2, description: "Attack!" };
+                return { dmg: 2 };
         }
     };
 
