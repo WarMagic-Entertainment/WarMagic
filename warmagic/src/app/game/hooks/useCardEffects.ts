@@ -81,6 +81,55 @@ export const useCardEffects = ({
                 setEnemyHp(oldPlayerHp);
 
                 return { dmg: 0 };
+            
+            case 'justice':
+                const hit1 = 5
+                const hit2 = 4
+                if (hit1 + 1 === 6) {
+                    return { dmg: 1 };
+                } else {
+                    const oldPlayerHp2 = playerHp;
+                    if(oldPlayerHp2 === oldPlayerHp2 - 1) {
+                        return { dmg: 1 };
+                    }
+                }
+                
+                if (hit2 + 2 === 6) {
+                    return { dmg: 2 };
+                } else {
+                    const oldPlayerHp2 = playerHp;
+                    if(oldPlayerHp2 === oldPlayerHp2 - 2) {
+                        return { dmg: 2 };
+                    }
+                }
+
+            case 'strength':
+                return { dmg: 3 };
+
+            case 'temperance':
+                setEnemyHp(playerHp + 1);
+                return { dmg: 0 };
+
+            case 'judgement':
+                setSelectionMode(true);
+                return { dmg: 2, preventTurnChange: true };
+
+            // 1/2
+            case 'world':
+                const hit3 = 0
+                if (hit3 + 2 === 2) {
+                    setEnemyHp(0);
+                    changePlayerHp(6);
+                    return { dmg: 0 };
+                } else {
+                    return { dmg: 2 };
+                }
+            
+            case 'sun':
+                changePlayerHp(6);
+                return { dmg: 0, preventTurnChange: true };
+
+            
 
             default:
                 return { dmg: 2 };
