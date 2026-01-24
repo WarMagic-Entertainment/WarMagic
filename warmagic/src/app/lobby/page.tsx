@@ -252,7 +252,7 @@ function LobbyContent({ data, handleLogout }: { data: any, handleLogout: () => v
             </Link>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </AuthGuard>
   );
 }
