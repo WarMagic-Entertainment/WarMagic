@@ -32,48 +32,64 @@ export const useCardEffects = ({
         if (!enemy) return { dmg: 0 };
 
         switch (cardKey) {
+            // 1
             case 'fool':
                 changePlayerHp(6);
                 setEnemyHp(6);
+                setTurn('player');
                 return {
                     dmg: 0,
                     preventTurnChange: true
                 };
 
+
+            // 2 
             case 'magician':
                 setSelectionMode(true);
+                setTurn('player');
                 return { dmg: 1, preventTurnChange: true };
 
+            // 3
             case 'high_priestess':
                 changePlayerHp(3);
                 return { dmg: 0 };
 
+            // 4
             case 'empress':
                 changePlayerHp(1);
                 return { dmg: 1 };
 
+            // 5
             case 'emperor':
                 if (playerHp === 1) {
                     changePlayerHp(2);
+                    setTurn('player');
                     return { dmg: 0, preventTurnChange: true };
                 }
                 return { dmg: 0 };
 
+            // 6
             case 'hierophant':
                 setEnemyStatus({ type: 'confusion', duration: 1 });
                 return { dmg: 0 };
 
+            // 7
             case 'lovers':
-                return { dmg: 2 };
+                changePlayerHp(playerHp + 1);
+                setEnemyHp(enemyHp + 1);
+                return { dmg: 0 };
 
+            // 8
             case 'chariot':
                 fleeEncounter();
                 return { dmg: 0, preventTurnChange: true };
 
+            // 9
             case 'moon':
                 setEnemyStatus({ type: 'moon_blindness', duration: 1 });
                 return { dmg: 0 };
 
+            // 10
             case 'wheel_of_fortune':
                 const oldPlayerHp = playerHp;
                 const oldEnemyHp = enemyHp;
@@ -82,6 +98,7 @@ export const useCardEffects = ({
 
                 return { dmg: 0 };
             
+            // 11
             case 'justice':
                 const hit1 = 5
                 const hit2 = 4
@@ -103,17 +120,21 @@ export const useCardEffects = ({
                     }
                 }
 
+            // 12
             case 'strength':
                 return { dmg: 3 };
 
+            // 13  
             case 'temperance':
                 setEnemyHp(playerHp + 1);
                 return { dmg: 0 };
 
+            // 14
             case 'judgement':
                 setSelectionMode(true);
                 return { dmg: 2, preventTurnChange: true };
 
+            // 15
             // 1/2
             case 'world':
                 const hit3 = 0
@@ -125,11 +146,27 @@ export const useCardEffects = ({
                     return { dmg: 2 };
                 }
             
+            // 16
             case 'sun':
                 changePlayerHp(6);
                 return { dmg: 0, preventTurnChange: true };
 
+            // 17
+            case 'death':
+                if (enemyHp <= 3) {
+                    changePlayerHp(playerHp + 2);
+                    return { dmg: 3 };
+                }
+                else {
+                    changePlayerHp(playerHp + 1);
+                    return { dmg: 2 };
+                }
             
+            // 18
+            case 'star':
+                changePlayerHp(playerHp + 1);
+                setTurn('player');
+                return { dmg: 0 };
 
             default:
                 return { dmg: 2 };

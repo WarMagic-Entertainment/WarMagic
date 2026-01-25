@@ -226,7 +226,7 @@ function LobbyContent({ data, handleLogout }: { data: any, handleLogout: () => v
               />
             </div>
           </div>
-          <div className="w-full lg:w-[700px] min-h-[500px] sm:h-[580px] bg-[#202020] backdrop-blur-md rounded-lg px-4 sm:px-6 lg:px-10 py-6 sm:py-10">
+          <div className="w-full lg:w-[700px] min-h-[700px] sm:h-[580px] bg-[#202020] backdrop-blur-md rounded-lg px-4 sm:px-6 lg:px-10 py-6 sm:py-10">
             <div
               className="bg-cover bg-center bg-no-repeat brightness-75 w-full h-[200px] sm:h-[250px] lg:h-[300px] lg:w-[620px] mx-auto"
               style={{
@@ -248,6 +248,14 @@ function LobbyContent({ data, handleLogout }: { data: any, handleLogout: () => v
             >
               <button className="w-full h-12 sm:h-16 lg:h-[70px] mt-4 sm:mt-10 px-4 sm:px-10 py-2 sm:py-4 text-lg sm:text-2xl lg:text-[30px] text-[#FFFFFF] transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c] disabled:opacity-60">
                 Equipment
+              </button>
+            </Link>
+            <Link
+              href="../settings"
+              className="text-[var(--custom-yellow)] hover:underline"
+            >
+              <button className="w-full h-12 sm:h-16 lg:h-[70px] mt-4 sm:mt-10 px-4 sm:px-10 py-2 sm:py-4 text-lg sm:text-2xl lg:text-[30px] text-[#FFFFFF] transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c] disabled:opacity-60">
+                Settings
               </button>
             </Link>
           </div>
