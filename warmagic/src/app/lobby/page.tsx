@@ -145,12 +145,11 @@ function LobbyContent({
           </button>
           <a href="../settings">
             <Image
-              style={{ filter: "invert(1)" }}
               src="./assets/icons/menu-icons/settings-svgrepo-com.svg"
               alt="Battlegrounds mode image"
               width={40}
               height={40}
-              className="sm:w-[50px] sm:h-[50px] animate-spin [animation-duration:2s]"
+              className="sm:w-[50px] sm:h-[50px] animate-spin [animation-duration:2s] [filter:brightness(0)_saturate(100%)_invert(87%)_sepia(26%)_saturate(1003%)_hue-rotate(324deg)_brightness(103%)_contrast(101%)]"
             />
           </a>
         </div>
@@ -258,7 +257,7 @@ function LobbyContent({
                 className="sm:w-[50px] sm:h-[50px]"
               />
               <div className="font-bold text-lg sm:text-xl lg:text-2xl">
-                Cybergrind
+                LayerExplore
               </div>
             </div>
             <div className="flex items-center justify-start p-2 w-[46px] sm:w-[50px] h-[46px] sm:h-[50px] bg-[#FFD080] backdrop-blur-md rounded-lg shrink-0">
@@ -272,7 +271,7 @@ function LobbyContent({
               />
             </div>
           </div>
-          <div className="w-full lg:w-[700px] min-h-[700px] sm:h-[580px] bg-[#202020] backdrop-blur-md rounded-lg px-4 sm:px-6 lg:px-10 py-6 sm:py-10">
+          <div className="w-full lg:w-[700px] min-h-[600px] sm:h-[580px] bg-[#202020] backdrop-blur-md rounded-lg px-4 sm:px-6 lg:px-10 py-6 sm:py-10">
             <div
               className="bg-cover bg-center bg-no-repeat brightness-75 w-full h-[200px] sm:h-[250px] lg:h-[300px] lg:w-[620px] mx-auto"
               style={{
@@ -294,14 +293,6 @@ function LobbyContent({
             >
               <button className="w-full h-12 sm:h-16 lg:h-[70px] mt-4 sm:mt-10 px-4 sm:px-10 py-2 sm:py-4 text-lg sm:text-2xl lg:text-[30px] text-[#FFFFFF] transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c] disabled:opacity-60">
                 Equipment
-              </button>
-            </Link>
-            <Link
-              href="../settings"
-              className="text-[var(--custom-yellow)] hover:underline"
-            >
-              <button className="w-full h-12 sm:h-16 lg:h-[70px] mt-4 sm:mt-10 px-4 sm:px-10 py-2 sm:py-4 text-lg sm:text-2xl lg:text-[30px] text-[#FFFFFF] transition-all duration-300 bg-[var(--custom-yellow)] hover:bg-[#ebbc6c] disabled:opacity-60">
-                Settings
               </button>
             </Link>
           </div>
