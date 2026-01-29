@@ -7,7 +7,7 @@ interface UseCardEffectsProps {
     changePlayerHp: (amount: number) => void;
     setEnemyHp: (val: number) => void;
     setEnemyStatus: (status: EnemyStatus | null) => void;
-    setSelectionMode: (mode: boolean) => void;
+    setSelectionMode: (mode: 'none' | 'reduce_1' | 'reduce_2' | 'reset') => void;
     setTurn: (turn: 'player' | 'enemy') => void;
     setEnemyState: (state: "idle" | "attack" | "hit" | "dead") => void;
     setGameStatus: (status: 'playing' | 'won' | 'lost') => void;
@@ -34,34 +34,39 @@ export const useCardEffects = ({
         if (!enemy) return { dmg: 0 };
 
         switch (cardKey) {
-            // 1
+            // 1 ✅
             case 'fool':
                 changePlayerHp(6);
                 setEnemyHp(6);
                 setTurn('player');
+                if (enemyHp <= 0) {
+                    setEnemyState("dead");
+                    setGameStatus("won");
+                    return { dmg: 0, preventTurnChange: true };
+                }
                 return {
                     dmg: 0,
                     preventTurnChange: true
                 };
 
-
-            // 2 
+            // 2 ✅
             case 'magician':
-                setSelectionMode(true);
+                setSelectionMode('reduce_1');
                 setTurn('player');
                 return { dmg: 1, preventTurnChange: true };
 
-            // 3
+            // 3 ✅
             case 'high_priestess':
-                changePlayerHp(3);
-                return { dmg: 0 };
+                setSelectionMode('reset');
+                setTurn('player');
+                return { dmg: 0, preventTurnChange: true };
 
-            // 4
+            // 4✅
             case 'empress':
                 changePlayerHp(1);
                 return { dmg: 1 };
 
-            // 5
+            // 5 ✅
             case 'emperor':
                 if (playerHp === 1) {
                     changePlayerHp(2);
@@ -70,28 +75,29 @@ export const useCardEffects = ({
                 }
                 return { dmg: 0 };
 
-            // 6
+            // 6✅
             case 'hierophant':
                 setEnemyStatus({ type: 'confusion', duration: 1 });
                 return { dmg: 0 };
 
-            // 7
+            // 7 ✅
             case 'lovers':
-                changePlayerHp(playerHp + 1);
+                changePlayerHp(1);
                 setEnemyHp(enemyHp + 1);
-                return { dmg: 0 };
+                setTurn('player');
+                return { dmg: 0, preventTurnChange: true };
 
-            // 8
+            // 8 ✅
             case 'chariot':
                 fleeEncounter();
                 return { dmg: 0, preventTurnChange: true };
 
-            // 9
+            // 9 ✅
             case 'moon':
                 setEnemyStatus({ type: 'moon_blindness', duration: 1 });
                 return { dmg: 0 };
 
-            // 10
+            // 10 ✅    
             case 'wheel_of_fortune':
                 const oldPlayerHp = playerHp;
                 const oldEnemyHp = enemyHp;
@@ -100,7 +106,7 @@ export const useCardEffects = ({
 
                 return { dmg: 0 };
 
-            // 11
+            // 11 ✅
             case 'justice':
                 const hit1 = 5
                 const hit2 = 4
@@ -122,10 +128,11 @@ export const useCardEffects = ({
                     }
                 }
 
-            // 12
+            // 12 ✅
             case 'strength':
                 return { dmg: 3 };
 
+            // 13 ✅
             case 'hanged_man':
                 const isWin = Math.random() < 0.7;
                 if (isWin) {
@@ -136,21 +143,19 @@ export const useCardEffects = ({
                 }
                 return { dmg: 0 };
 
-            // 13  
+            // 14 ✅
             case 'temperance':
-                setEnemyHp(playerHp + 1);
+                setEnemyHp(playerHp);
                 return { dmg: 0 };
 
-            // 14
+            // 15 ✅
             case 'judgement':
-                setSelectionMode(true);
+                setSelectionMode('reduce_2');
                 return { dmg: 2, preventTurnChange: true };
 
-            // 15
-            // 1/2
+            // 16 ✅
             case 'world':
-                const hit3 = 0
-                if (hit3 + 2 === 2) {
+                if (enemyHp - 2 === 0) {
                     setEnemyHp(0);
                     changePlayerHp(6);
                     return { dmg: 0 };
@@ -158,12 +163,12 @@ export const useCardEffects = ({
                     return { dmg: 2 };
                 }
 
-            // 16
+            // 17 ✅
             case 'sun':
                 changePlayerHp(6);
                 return { dmg: 0, preventTurnChange: true };
 
-            // 17
+            // 18 ✅
             case 'death':
                 // Less than half of 6 is < 3
                 if (enemyHp <= 3) {
@@ -175,17 +180,38 @@ export const useCardEffects = ({
                     return { dmg: 2 };
                 }
 
-            // 18
+            // 19 ✅
             case 'star':
-                changePlayerHp(playerHp + 1);
+                changePlayerHp(1);
                 setTurn('player');
-                return { dmg: 0 };
+                return { dmg: 0, preventTurnChange: true };
 
-            // 19
+            // 20 ✅
             case 'hermit':
                 changePlayerHp(2);
                 const bonusDmg = hasDepletedCards() ? 1 : 0;
                 return { dmg: bonusDmg, preventTurnChange: true };
+
+            // 21 ✅
+            case 'devil':
+                let dmg = 2
+                const addDmg = 6 - playerHp
+                dmg = dmg + addDmg
+                return { dmg: dmg };
+
+            // 22
+            case 'tower':
+                const rand = Math.random();
+                let selfDmg = 1;
+
+                if (rand < 0.5) {
+                    selfDmg = 1;
+                } else if (rand < 0.8) {
+                    selfDmg = 2;
+                } else {
+                    selfDmg = 3;
+                }
+                return { dmg: selfDmg };
 
             default:
                 return { dmg: 2 };
