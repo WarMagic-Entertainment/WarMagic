@@ -22,7 +22,7 @@ export default function GamePage() {
   const { loading, equippedCards, cardInfos, enemies, playerName } = useGameData();
   const [layer, setLayer] = useState(1);
   const [round, setRound] = useState(1);
-  const { isCardReady, recordCardUsage, parseCooldown, setCardStates, getRemainingCooldown, reduceCooldown, adjustCooldowns, hasDepletedCards } = useCardLogic(round, layer, cardInfos);
+  const { isCardReady, recordCardUsage, parseCooldown, setCardStates, getRemainingCooldown, reduceCooldown, resetCooldown, adjustCooldowns, hasDepletedCards } = useCardLogic(round, layer, cardInfos);
   const { saveProgress } = useGamePersistence(layer);
   const [turn, setTurn] = useState<'player' | 'enemy'>('player');
   const [gameStatus, setGameStatus] = useState<'playing' | 'won' | 'lost'>('playing');
@@ -47,7 +47,7 @@ export default function GamePage() {
   const [showCards, setShowCards] = useState(false);
 
   const [enemyStatus, setEnemyStatus] = useState<EnemyStatus | null>(null);
-  const [selectionMode, setSelectionMode] = useState(false);
+  const [selectionMode, setSelectionMode] = useState<"none" | "reduce_1" | "reduce_2" | "reset">("none");
 
   const setEnemyHpInstant = (val: number) => {
     setEnemyHp(val);
@@ -166,10 +166,12 @@ export default function GamePage() {
     setTurn('player');
   };
 
+  // 21
+
   const handlePlayerAttack = (cardKey: string) => {
     if (turn !== 'player' || !currentEnemy) return;
 
-    if (selectionMode) {
+    if (selectionMode !== 'none') {
       const info = cardInfos[cardKey] || (CARD_DATA[cardKey] && cardInfos[CARD_DATA[cardKey].name]);
       const cdStr = (info?.cooldown || "").toLowerCase();
 
@@ -177,8 +179,15 @@ export default function GamePage() {
         return;
       }
 
-      reduceCooldown(cardKey, 1);
-      setSelectionMode(false);
+      if (selectionMode === 'reduce_1') {
+        reduceCooldown(cardKey, 1);
+      } else if (selectionMode === 'reduce_2') {
+        reduceCooldown(cardKey, 2);
+      } else if (selectionMode === 'reset') {
+        resetCooldown(cardKey);
+      }
+
+      setSelectionMode('none');
       setShowCards(false);
       setTurn('enemy');
       return;
@@ -201,7 +210,11 @@ export default function GamePage() {
     setPlayerState("attack");
 
     setTimeout(() => {
-      if (effect.preventTurnChange) {
+      const isDead = enemyHp - dmg <= 0;
+
+      if (isDead) {
+        setEnemyState("dead");
+      } else if (effect.preventTurnChange) {
         setEnemyState("hit");
         setTimeout(() => setEnemyState("idle"), 500);
       } else {
@@ -211,6 +224,7 @@ export default function GamePage() {
       }
     }, 100);
   };
+  // 21
 
   const handleSkip = () => {
     if (turn !== 'player') return;
@@ -231,6 +245,7 @@ export default function GamePage() {
 
   const handleEnemyTurn = () => {
     if (turn !== 'enemy') return;
+    if (enemyHp <= 0) return;
 
     //Check Status Effects: Confusion
     if (enemyStatus?.type === 'confusion') {
@@ -262,6 +277,7 @@ export default function GamePage() {
 
   const performEnemyAttack = () => {
     if (!currentEnemy) return;
+    if (enemyHp <= 0) return;
     let dmg = currentEnemy.dmg;
     if (enemyStatus?.type === 'moon_blindness') {
       const miss = Math.random() < 0.7;
@@ -424,7 +440,7 @@ export default function GamePage() {
 
         {showCards && turn === 'player' && (
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-30 bg-black/80 backdrop-blur-md p-4 sm:p-5 md:p-6 shadow-2xl overflow-visible border-t-2 border-l-2 border-r-2 border-[var(--custom-yellow)]">
-            {selectionMode && (
+            {selectionMode !== 'none' && (
               <div className="absolute -top-10 left-0 right-0 text-center text-[var(--custom-yellow)] font-bold animate-pulse">
                 SELECT A CARD TO RECHARGE
               </div>
@@ -440,7 +456,7 @@ export default function GamePage() {
                 const isSingleUse = cdStr.startsWith('u') || cdStr.startsWith('fu');
                 const isEmperorRestricted = cardKey === 'emperor' && playerHp !== 1;
 
-                const isSelectable = selectionMode
+                const isSelectable = selectionMode !== 'none'
                   ? (!isReady && !isSingleUse)
                   : (isReady && !isEmperorRestricted);
 
@@ -456,8 +472,7 @@ export default function GamePage() {
                     onMouseLeave={() => setHoveredCard(null)}
                     className={`relative w-12 sm:w-16 md:w-20 lg:w-24 xl:w-28 aspect-[2/3] rounded transition-all duration-200 shrink-0 overflow-hidden z-10
                       ${isSelectable ? 'cursor-pointer hover:brightness-110 hover:scale-110 hover:z-20' : 'cursor-not-allowed opacity-50 grayscale'}
-                      ${selectionMode && !isReady && !isSingleUse ? 'ring-2 ring-[var(--custom-yellow)]' : ''}
-                      ${!selectionMode && isEmperorRestricted ? 'opacity-30 grayscale cursor-not-allowed' : ''}
+                      ${selectionMode === 'none' && isEmperorRestricted ? 'opacity-30 grayscale cursor-not-allowed' : ''}
                     `}
                   >
                     <Image

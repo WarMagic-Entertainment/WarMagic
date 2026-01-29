@@ -140,6 +140,37 @@ export const useCardLogic = (round: number, layer: number, cardInfos: Record<str
         });
     };
 
+    const resetCooldown = (cardKey: string) => {
+        setCardStates(prev => {
+            const state = prev[cardKey];
+            if (!state) return prev;
+
+            // Removing the state key effectively resets it for round/layer cooldowns
+            // For 'uses' type, we might want to reset usesLeft to max.
+
+            const cd = getCardCooldownState(cardKey);
+            if (!cd) {
+                // If we can't get config, just remove state to be safe (assumes ready)
+                const { [cardKey]: _, ...rest } = prev;
+                return rest;
+            }
+
+            if (cd.type === 'u') {
+                return {
+                    ...prev,
+                    [cardKey]: {
+                        ...state,
+                        usesLeft: cd.val
+                    }
+                };
+            }
+
+            // For round/layer based, removing the entry makes isCardReady return true
+            const { [cardKey]: _, ...rest } = prev;
+            return rest;
+        });
+    };
+
     const adjustCooldowns = (finalRound: number) => {
         setGlobalRoundOffset(prev => prev + finalRound);
     };
@@ -164,6 +195,7 @@ export const useCardLogic = (round: number, layer: number, cardInfos: Record<str
         parseCooldown,
         getRemainingCooldown,
         reduceCooldown,
+        resetCooldown,
         adjustCooldowns,
         hasDepletedCards
     };

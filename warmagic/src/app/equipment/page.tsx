@@ -262,9 +262,9 @@ export default function EquipmentPage() {
                     </div>
 
                     <div className="flex-1 min-h-0 bg-[#202020]/90 backdrop-blur-md rounded-lg p-4 overflow-hidden flex flex-col relative">
-                        <h2 className="text-xl text-[var(--custom-yellow)] font-bold mb-2 shrink-0 text-center">Collection</h2>
+                        <h2 className="text-xl text-[var(--custom-yellow)] font-bold mb-2 shrink-0 text-center ">Collection</h2>
 
-                        <div className="overflow-y-auto flex flex-wrap justify-center content-start h-full" style={{ gap: '50px' }}>
+                        <div className="overflow-y-auto flex flex-wrap justify-center content-start h-full " style={{ gap: '50px' }}>
                             {ALL_CARD_KEYS.map((cardKey) => {
                                 const card = CARD_DATA[cardKey];
                                 const info = cardInfos[cardKey];
@@ -281,8 +281,8 @@ export default function EquipmentPage() {
                                                 onMouseLeave={() => setHoveredCard(null)}
                                                 className={`
                                     relative rounded border transition-all duration-200
-                                    ${isUnlocked ? 'cursor-pointer hover:border-[var(--custom-yellow)] hover:scale-110 hover:z-50 hover:shadow-xl' : 'cursor-not-allowed opacity-50 grayscale'}
-                                    ${isEquipped ? 'border-[var(--custom-yellow)]' : 'border-gray-600'}
+                                    ${isUnlocked ? 'rounded-4xl cursor-pointer hover:border-[var(--custom-yellow)] hover:scale-110 hover:z-50 hover:shadow-xl' : 'cursor-not-allowed opacity-50 grayscale'}
+                                    ${isEquipped ? 'rounded-4xl border-[var(--custom-yellow)]' : 'border-gray-600'}
                                 `} style={{ height: '100%', display: 'inline-block' }}>
                                                 <Image
                                                     src={`/assets/cards/${card.file}`}
