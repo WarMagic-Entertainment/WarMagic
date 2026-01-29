@@ -22,7 +22,7 @@ export default function GamePage() {
   const { loading, equippedCards, cardInfos, enemies, playerName } = useGameData();
   const [layer, setLayer] = useState(1);
   const [round, setRound] = useState(1);
-  const { isCardReady, recordCardUsage, parseCooldown, setCardStates, getRemainingCooldown, reduceCooldown, adjustCooldowns } = useCardLogic(round, layer, cardInfos);
+  const { isCardReady, recordCardUsage, parseCooldown, setCardStates, getRemainingCooldown, reduceCooldown, adjustCooldowns, hasDepletedCards } = useCardLogic(round, layer, cardInfos);
   const { saveProgress } = useGamePersistence(layer);
   const [turn, setTurn] = useState<'player' | 'enemy'>('player');
   const [gameStatus, setGameStatus] = useState<'playing' | 'won' | 'lost'>('playing');
@@ -126,7 +126,8 @@ export default function GamePage() {
     setTurn,
     setEnemyState,
     setGameStatus,
-    fleeEncounter
+    fleeEncounter,
+    hasDepletedCards
   });
 
   useEffect(() => {
@@ -314,7 +315,7 @@ export default function GamePage() {
   };
 
   useEffect(() => {
-    if (currentEnemy && enemyHp <= 0 && enemyState !== "dead" && enemyState !== "deadAnim") {
+    if (currentEnemy && enemyHp <= 0 && enemyState !== "dead") {
       handleEnemyDeath();
     }
   }, [enemyHp, currentEnemy]);

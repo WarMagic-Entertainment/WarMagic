@@ -141,19 +141,18 @@ export const useCardLogic = (round: number, layer: number, cardInfos: Record<str
     };
 
     const adjustCooldowns = (finalRound: number) => {
-        setCardStates(prev => {
-            const nextStates = { ...prev };
-            Object.keys(nextStates).forEach(key => {
-                const cd = getCardCooldownState(key);
-                if (cd?.type === 'r') {
+        setGlobalRoundOffset(prev => prev + finalRound);
+    };
 
-                    nextStates[key] = {
-                        ...nextStates[key],
-                        lastUsedRound: nextStates[key].lastUsedRound - finalRound
-                    };
-                }
-            });
-            return nextStates;
+    const hasDepletedCards = () => {
+        return Object.keys(cardInfos).some(key => {
+            const cd = getCardCooldownState(key);
+            const state = cardStates[key];
+            // Check if it's a 'uses' type card AND it has state (meaning it's been used) AND usesLeft is <= 0
+            if (cd?.type === 'u' && state && state.usesLeft <= 0) {
+                return true;
+            }
+            return false;
         });
     };
 
@@ -165,6 +164,7 @@ export const useCardLogic = (round: number, layer: number, cardInfos: Record<str
         parseCooldown,
         getRemainingCooldown,
         reduceCooldown,
-        adjustCooldowns
+        adjustCooldowns,
+        hasDepletedCards
     };
 };
