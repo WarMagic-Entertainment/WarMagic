@@ -166,7 +166,6 @@ export default function GamePage() {
     setTurn('player');
   };
 
-  // 21
 
   const handlePlayerAttack = (cardKey: string) => {
     if (turn !== 'player' || !currentEnemy) return;
@@ -224,7 +223,6 @@ export default function GamePage() {
       }
     }, 100);
   };
-  // 21
 
   const handleSkip = () => {
     if (turn !== 'player') return;
