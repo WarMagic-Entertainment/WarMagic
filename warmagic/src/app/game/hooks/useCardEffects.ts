@@ -12,6 +12,7 @@ interface UseCardEffectsProps {
     setEnemyState: (state: "idle" | "attack" | "hit" | "dead") => void;
     setGameStatus: (status: 'playing' | 'won' | 'lost') => void;
     fleeEncounter: () => void;
+    hasDepletedCards: () => boolean;
 }
 
 export const useCardEffects = ({
@@ -25,7 +26,8 @@ export const useCardEffects = ({
     setTurn,
     setEnemyState,
     setGameStatus,
-    fleeEncounter
+    fleeEncounter,
+    hasDepletedCards
 }: UseCardEffectsProps) => {
 
     const handleCardEffect = (cardKey: string): { dmg: number, preventTurnChange?: boolean } => {
@@ -97,7 +99,7 @@ export const useCardEffects = ({
                 setEnemyHp(oldPlayerHp);
 
                 return { dmg: 0 };
-            
+
             // 11
             case 'justice':
                 const hit1 = 5
@@ -106,16 +108,16 @@ export const useCardEffects = ({
                     return { dmg: 1 };
                 } else {
                     const oldPlayerHp2 = playerHp;
-                    if(oldPlayerHp2 === oldPlayerHp2 - 1) {
+                    if (oldPlayerHp2 === oldPlayerHp2 - 1) {
                         return { dmg: 1 };
                     }
                 }
-                
+
                 if (hit2 + 2 === 6) {
                     return { dmg: 2 };
                 } else {
                     const oldPlayerHp2 = playerHp;
-                    if(oldPlayerHp2 === oldPlayerHp2 - 2) {
+                    if (oldPlayerHp2 === oldPlayerHp2 - 2) {
                         return { dmg: 2 };
                     }
                 }
@@ -123,6 +125,16 @@ export const useCardEffects = ({
             // 12
             case 'strength':
                 return { dmg: 3 };
+
+            case 'hanged_man':
+                const isWin = Math.random() < 0.7;
+                if (isWin) {
+                    setEnemyHp(0);
+                    return { dmg: 0, preventTurnChange: true };
+                } else {
+                    changePlayerHp(-6);
+                }
+                return { dmg: 0 };
 
             // 13  
             case 'temperance':
@@ -145,7 +157,7 @@ export const useCardEffects = ({
                 } else {
                     return { dmg: 2 };
                 }
-            
+
             // 16
             case 'sun':
                 changePlayerHp(6);
@@ -153,20 +165,27 @@ export const useCardEffects = ({
 
             // 17
             case 'death':
+                // Less than half of 6 is < 3
                 if (enemyHp <= 3) {
-                    changePlayerHp(playerHp + 2);
-                    return { dmg: 3 };
+                    changePlayerHp(2);
+                    return { dmg: 3, preventTurnChange: true };
                 }
                 else {
-                    changePlayerHp(playerHp + 1);
+                    changePlayerHp(1);
                     return { dmg: 2 };
                 }
-            
+
             // 18
             case 'star':
                 changePlayerHp(playerHp + 1);
                 setTurn('player');
                 return { dmg: 0 };
+
+            // 19
+            case 'hermit':
+                changePlayerHp(2);
+                const bonusDmg = hasDepletedCards() ? 1 : 0;
+                return { dmg: bonusDmg, preventTurnChange: true };
 
             default:
                 return { dmg: 2 };
