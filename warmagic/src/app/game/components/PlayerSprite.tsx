@@ -19,7 +19,7 @@ export default function PlayerSprite({
     deadAnim: "/assets/player/player1/gelorbi_dead.webm",
     dead: "/assets/player/player1/gelorbi_dead.png",
   };
-
+3
   const isVideo =
     playerState === "attack" ||
     playerState === "hit" ||
